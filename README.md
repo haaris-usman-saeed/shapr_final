@@ -26,6 +26,18 @@ Not sure what to say? Hold ⌥V and say **"what can I say"**. The classic one-ke
 | **⌥⇧P** (Option-Shift-P) | **Save progress**: a checkpoint of where you are in the work |
 | **⌥⇧R** (Option-Shift-R) | **Resume** in the AI or coding tool you're in |
 
+## Shapr Flow: working sessions
+
+Click the Shapr icon and press **Start working session**. Shapr asks before it observes each app (**Allow once**, **for this session**, **always**, or **Don't allow**), then quietly keeps a small, evidence-backed picture of what you're working on: the task, your rules word for word, what you tried, errors that keep showing, open questions and your next step. Every item says how Shapr knows it (*observed*, *you said*, or *inferred*) and links to where it came from.
+
+- **Circle anything** (double-tap ⌘), then press **L** for **Lens** (understand it, using what you already tried and read), **T** for **Threads** (remember it for this task), or **S** for **Simulate** (compare two approaches against your rules and past attempts; scenario exploration, not prediction). **A** still adds it to a pack and **Q** asks your packs; doing nothing saves it, as before.
+- **Continue where you left off**: start a session tomorrow and Shapr offers yesterday's task, what was tried, and what was still failing, then hands it to any AI tool through Resume.
+- **Private by design**: off at every launch; only apps you allow; no keystrokes, clipboard or background screenshots; window text is reduced to error lines before anything is kept; password managers and secure fields are never read. Memory is processed on this Mac; Claude is used only when you ask and after you've seen what's sent.
+- **Privacy & memory** (from the popover) shows and deletes everything, per app, per session or per task.
+- Right-click the icon (or **More**) for the classic menu.
+
+Details: [architecture and memory](docs/SHAPR_FLOW.md) · [privacy specification](docs/FLOW_PRIVACY.md) · [demo and Mac test plan](docs/FLOW_DEMO.md)
+
 ## Use this with my pack (⌥⇧U)
 
 Point at something (select a question, an email, an error) and press **⌥⇧U**, or pick **Use with…** from ⌥⇧Space. Shapr connects it with what you already collected:
@@ -242,6 +254,7 @@ Settings → **Connect Claude to your packs** adds Shapr to Claude Desktop in on
 | `search_captures` | search every capture |
 | `create_pack`, `add_to_pack` | save things, e.g. "make a context pack from this chat" |
 | `save_checkpoint`, `get_checkpoint` | save where you are and pick it up in another AI tool |
+| `get_current_task` | Shapr Flow's current task summary (can be turned off in Privacy & memory) |
 
 New packs show up on your wheel straight away. Under the hood it's `Shapr --mcp`, a local server that only reads and writes `~/Shapr/Packs`.
 
@@ -301,6 +314,8 @@ Updates are checked at launch and every six hours (**Settings → General → Up
 
 ```bash
 swift run Shapr --selftest            # storage, auto-sort, export and Safe Share checks (no UI, temp folder)
+swift run ShaprCoreChecks             # Shapr Flow's core checks: permissions, memory, retrieval (any platform, no Mac needed)
+swift run ShaprCoreChecks --demo      # the Shapr Flow demo story, run through the real engine (also: Shapr --flow-demo)
 swift run Shapr --render /tmp/shots   # PNG snapshots of the wheel, toasts, library, share, drop and settings
 swift run Shapr --mcp                 # the MCP server on stdin/stdout
 swift run Shapr --share-smoke http://localhost:8787   # share, join and live-update end to end (server running)

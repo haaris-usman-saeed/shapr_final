@@ -1,4 +1,5 @@
 import AppKit
+import ShaprCore
 
 /// `Shapr --mcp`: a Model Context Protocol server over stdin/stdout, so Claude Desktop,
 /// Claude Code, Cursor and other MCP clients can read the user's packs and make new ones.
@@ -188,6 +189,13 @@ final class MCPServer {
 
     static let checkpointTools: [[String: Any]] = [
         [
+            "name": "get_current_task",
+            "title": "Get the user's current task (Shapr Flow)",
+            "description": "Get what the user is working on right now, from Shapr Flow's working memory: the task, their rules word for word, decisions, what was already tried, errors still showing, open questions and the next step, each tagged with how Shapr knows it (observed, the user's words, or inferred). Use it before helping with ongoing work so the user doesn't have to re-explain. Read-only; contains no raw screen content.",
+            "inputSchema": ["type": "object", "properties": [String: Any](), "additionalProperties": false],
+            "annotations": readOnly,
+        ],
+        [
             "name": "get_checkpoint",
             "title": "Get where the user left off",
             "description": "Get the latest progress checkpoint for a pack (goal, decisions, approaches already tried, open problems, next step, open pages) plus a ready continuation prompt. Use it when the user wants to resume or continue earlier work. Without a pack, uses the equipped pack, then the most recently checkpointed one.",
@@ -281,6 +289,9 @@ final class MCPServer {
             guard let d = draft(args) else { throw ToolError(message: "text is required") }
             guard store.add(d, to: p.id) != nil else { throw ToolError(message: "Couldn't save the capture.") }
             return "Added to “\(p.label)” (\(p.captures.count + 1) captures)."
+
+        case "get_current_task":
+            return FlowEngine.portableTaskSummary(directory: FlowStore.defaultDirectory())
 
         case "get_checkpoint":
             let p: Pack

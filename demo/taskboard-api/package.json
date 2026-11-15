@@ -1,0 +1,7 @@
+{
+  "name": "taskboard-api",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Shapr Flow demo project: a tiny API that can't reach its database. No dependencies.",
+  "scripts": { "dev": "node --env-file=.env src/server.js" }
+}

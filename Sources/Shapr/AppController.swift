@@ -1,4 +1,5 @@
 import AppKit
+import ShaprCore
 import Carbon
 import Combine
 import SwiftUI
@@ -47,6 +48,15 @@ final class AppController: NSObject, NSApplicationDelegate, NSMenuDelegate, NSWi
         return r
     }()
     lazy var relay = RelayController(store: store, toast: toast)
+    /// Shapr Flow: permission-gated working sessions, task memory, and Lens / Threads / Simulate.
+    lazy var flow: FlowController = {
+        let f = FlowController(store: store, toast: toast)
+        f.openResume = { [weak self] packID in self?.resume.open(preferring: packID) }
+        f.showMenu = { [weak self] in self?.showStatusMenu() }
+        f.showLibrary = { [weak self] id in self?.showLibrary(select: id) }
+        f.onRefresh = { [weak self] in self?.updateStatusButton() }
+        return f
+    }()
     private let overlay = CaptureOverlayController()
     private var circleDetector: DoubleTapDetector?
     private lazy var suggester = FileSuggester(store: store, toast: toast, sorter: sorter)
@@ -58,6 +68,8 @@ final class AppController: NSObject, NSApplicationDelegate, NSMenuDelegate, NSWi
     private var screenCapturing = false
 
     private var statusItem: NSStatusItem!
+    /// The classic menu: right-click the icon, or More in the popover.
+    private let statusMenu = NSMenu()
     private var libraryWindow: NSWindow?
     private let libraryState = LibraryState()
     private var settingsWindow: NSWindow?
@@ -94,6 +106,7 @@ final class AppController: NSObject, NSApplicationDelegate, NSMenuDelegate, NSWi
         updater.start()
         relay.start()
         sync.start()
+        _ = flow // loads Flow memory; a session stays off until you start one
         store.$equippedPackID.combineLatest(store.$packs)
             .sink { [weak self] _, _ in DispatchQueue.main.async { self?.updateStatusButton() } }
             .store(in: &cancellables)
@@ -377,10 +390,32 @@ final class AppController: NSObject, NSApplicationDelegate, NSMenuDelegate, NSWi
 
     private func setupStatusItem() {
         statusItem = NSStatusBar.system.statusItem(withLength: NSStatusItem.variableLength)
-        let menu = NSMenu()
-        menu.delegate = self
-        statusItem.menu = menu
+        statusMenu.delegate = self
+        // Click: the Shapr Flow popover. Right-click or Control-click: the classic menu.
+        statusItem.button?.target = self
+        statusItem.button?.action = #selector(statusClicked(_:))
+        statusItem.button?.sendAction(on: [.leftMouseUp, .rightMouseUp])
         updateStatusButton()
+    }
+
+    @objc private func statusClicked(_ sender: NSStatusBarButton) {
+        let e = NSApp.currentEvent
+        if e?.type == .rightMouseUp || e?.modifierFlags.contains(.control) == true {
+            showStatusMenu()
+        } else {
+            flow.togglePopover(from: sender)
+        }
+    }
+
+    func showStatusMenu() {
+        guard let button = statusItem?.button else { return }
+        statusItem.menu = statusMenu
+        button.performClick(nil)
+        statusItem.menu = nil
+    }
+
+    func applicationWillTerminate(_ notification: Notification) {
+        flow.applicationWillTerminate()
     }
 
     private func updateStatusButton() {
@@ -391,7 +426,18 @@ final class AppController: NSObject, NSApplicationDelegate, NSMenuDelegate, NSWi
         button.imagePosition = .imageLeading
         // The equipped pack's first word, small, next to the icon; nothing when Auto-sort is on.
         let word = store.pack(store.equippedPackID)?.name.split(separator: " ").first.map { String($0.prefix(12)) }
-        button.title = word.map { " " + $0 } ?? ""
+        // A small dot shows a Flow session at a glance: green while observing, amber while paused.
+        let title = NSMutableAttributedString(string: word.map { " " + $0 } ?? "")
+        let state = flow.engine.state
+        if state == .active || state == .paused {
+            title.append(NSAttributedString(string: " ●", attributes: [
+                .foregroundColor: state == .active ? NSColor.systemGreen : NSColor.systemOrange,
+                .font: NSFont.systemFont(ofSize: 8),
+                .baselineOffset: 2,
+            ]))
+        }
+        button.attributedTitle = title
+        button.setAccessibilityLabel("Shapr" + (state == .active ? ", session active" : state == .paused ? ", session paused" : ""))
     }
 
     func menuNeedsUpdate(_ menu: NSMenu) {
@@ -839,6 +885,26 @@ final class AppController: NSObject, NSApplicationDelegate, NSMenuDelegate, NSWi
         let shot = PendingShot(draft: d, image: image, rect: rect)
         pendingShot = shot
         recentShot = shot
+        // Shapr Flow: the circle opens Lens / Threads / Simulate, with Add and Ask still one key away.
+        // Doing nothing still saves the screenshot, exactly as before.
+        if UserDefaults.standard.object(forKey: "flowCircleMenu") as? Bool ?? true {
+            let png = image.cgImage(forProposedRect: nil, context: nil, hints: nil).flatMap { ScreenCapture.pngForAI($0) }
+            flow.offerActions(text: d.text, draft: d, image: image, png: png, rect: rect,
+                              add: { [weak self] in self?.addShot(into: nil) },
+                              saveCopy: { [weak self] in Task { _ = await self?.saveShot(d, into: nil) } },
+                              consume: { [weak self] in
+                                  // Like "Ask about it": Lens and Simulate don't save the screenshot unless asked.
+                                  if self?.pendingShot?.id == shot.id { self?.pendingShot = nil }
+                              },
+                              ask: { [weak self] in
+                                  guard let self, let s = self.pendingShot else { return }
+                                  self.askAboutShot(s, question: AskEngine.looksLikeQuestion(s.draft.text) ? AskEngine.solveDefault : "", pack: nil, spoken: false)
+                              })
+            DispatchQueue.main.asyncAfter(deadline: .now() + 45) { [weak self] in
+                if self?.pendingShot?.id == shot.id { self?.addShot(into: nil) }
+            }
+            return
+        }
         let target = store.pack(store.equippedPackID)
         // A question on screen (homework, a quiz): offer to answer it straight away, from the pack.
         let isQuestion = AskEngine.looksLikeQuestion(d.text)
