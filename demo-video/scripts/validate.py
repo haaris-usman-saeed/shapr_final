@@ -14,7 +14,7 @@
 import json, os, re, subprocess, sys, argparse
 import numpy as np
 
-ap = argparse.ArgumentParser(); ap.add_argument("file"); ap.add_argument("--srt"); ap.add_argument("--expect")
+ap = argparse.ArgumentParser(); ap.add_argument("file"); ap.add_argument("--srt"); ap.add_argument("--expect"); ap.add_argument("--final-hold", type=float, default=4.5, help="an intentional end-card hold of up to this many seconds is not dead air")
 o = ap.parse_args()
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 name = os.path.splitext(os.path.basename(o.file))[0]
@@ -54,6 +54,8 @@ while i < len(still):
         if (j - i + 30) / 30 > 2.5: runs.append([round(i / 30, 2), round(j / 30, 2)])
         i = j
     else: i += 1
+rep["final_hold"] = [r for r in runs if r[1] >= dur - 1.2 and r[1] - r[0] <= o.final_hold]
+runs = [r for r in runs if r not in rep["final_hold"]]
 rep["dead_air"] = runs
 spikes = []
 for k in range(1, len(fr) - 1):

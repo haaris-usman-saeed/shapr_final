@@ -1,0 +1,45 @@
+{
+ "file": "exports/shapr_hero_1080p.mp4",
+ "video": {
+  "codec": "h264",
+  "profile": "High",
+  "width": 1920,
+  "height": 1080,
+  "fps": "30/1",
+  "pix_fmt": "yuv420p",
+  "frames": 6042
+ },
+ "audio": [
+  {
+   "codec": "aac",
+   "sample_rate": "48000",
+   "channels": 2
+  }
+ ],
+ "duration": 201.4,
+ "contact_sheet": "qa/sheet-shapr_hero_1080p.png",
+ "final_hold": [
+  [
+   198.53,
+   200.4
+  ]
+ ],
+ "dead_air": [],
+ "spikes": [],
+ "diff_stats": {
+  "frame_diff_median": 0.165,
+  "one_second_diff_min": 0.054,
+  "max": 227.61
+ },
+ "loudness": {
+  "integrated_lufs": -16.0,
+  "true_peak_dbtp": -1.5
+ },
+ "captions": {
+  "count": 27,
+  "too_short_or_outside": [],
+  "overlapping": []
+ },
+ "problems": [],
+ "pass": true
+}
