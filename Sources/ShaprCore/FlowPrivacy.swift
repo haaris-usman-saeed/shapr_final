@@ -111,7 +111,7 @@ public enum Salience {
             }
             guard noise.firstMatch(in: line, range: range) == nil,
                   errorWords.firstMatch(in: line, range: range) != nil else { continue }
-            let key = Text.normalized(line, maskNumbers: true)
+            let key = FlowText.normalized(line, maskNumbers: true)
             if seen.insert("e" + key).inserted { errors.append(Line(kind: .error, text: line)) }
         }
         // The most recent ones: the bottom of a terminal or log is the newest.

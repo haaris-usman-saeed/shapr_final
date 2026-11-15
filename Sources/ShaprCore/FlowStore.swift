@@ -46,19 +46,20 @@ public final class FlowStore {
         return base.appendingPathComponent("Shapr/Flow", isDirectory: true)
     }
 
-    public func load() -> FlowSnapshot {
+    /// `readOnly`: for other processes (the MCP server), which must never move or change the file.
+    public func load(readOnly: Bool = false) -> FlowSnapshot {
         guard let url, let data = try? Data(contentsOf: url) else { return FlowSnapshot() }
         do {
             let snap = try JSONDecoder.flow.decode(FlowSnapshot.self, from: data)
             if snap.schema > FlowSchema.version {
                 loadProblem = "Memory was saved by a newer Shapr; it was set aside, not changed."
-                Self.quarantine(url)
+                if !readOnly { Self.quarantine(url) }
                 return FlowSnapshot()
             }
             return snap
         } catch {
             loadProblem = "Stored memory couldn't be read; it was set aside and Shapr started fresh."
-            Self.quarantine(url)
+            if !readOnly { Self.quarantine(url) }
             return FlowSnapshot()
         }
     }

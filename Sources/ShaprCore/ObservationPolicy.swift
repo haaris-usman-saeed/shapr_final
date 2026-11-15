@@ -68,6 +68,12 @@ public final class AppAuthorizationStore {
         return .ask
     }
 
+    /// Apps the user blocked, read without changing the file (for other processes).
+    public static func deniedApps(at url: URL) -> Set<String> {
+        guard let data = try? Data(contentsOf: url), let file = try? JSONDecoder.flow.decode(File.self, from: data) else { return [] }
+        return Set(file.apps.values.filter { $0.access == .denied }.map(\.bundleID))
+    }
+
     public func permission(for bundleID: String) -> AppPermission? { transient[bundleID] ?? stored[bundleID] }
 
     /// Every app with a choice, for the privacy controls.

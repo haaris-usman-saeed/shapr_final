@@ -90,7 +90,7 @@ public enum MemoryRetrieval {
             for ep in kernel.episodes.reversed() where ep.taskID == id { ep.records.forEach(add) }
         }
         // From other work: only the exact same error, so unrelated tasks never leak in.
-        let q = Text.stems(query)
+        let q = FlowText.stems(query)
         let qErrors = Set(Salience.lines(in: query).filter { $0.kind == .error }.map { MemoryRecord.key(kind: .error, text: $0.text) })
         for r in kernel.records + kernel.episodes.flatMap(\.records) where r.taskID != taskID && r.kind == .error && qErrors.contains(r.key) {
             add(r)
@@ -98,7 +98,7 @@ public enum MemoryRetrieval {
 
         // Inverse document frequency over the pool.
         var df: [String: Int] = [:]
-        let stemsByID = Dictionary(uniqueKeysWithValues: pool.map { ($0.id, Text.stems($0.text)) })
+        let stemsByID = Dictionary(uniqueKeysWithValues: pool.map { ($0.id, FlowText.stems($0.text)) })
         for s in stemsByID.values { for t in s { df[t, default: 0] += 1 } }
         let n = Double(max(pool.count, 1))
         func score(_ r: MemoryRecord) -> (Double, String) {
@@ -131,7 +131,7 @@ public enum MemoryRetrieval {
             items.append(ContextItem(record: r, reason: why))
         }
         return ContextPackage(taskTitle: task?.title, taskTitleProvenance: task?.titleProvenance,
-                              request: Text.clip(query, max(200, budget / 3)), items: items, budget: budget)
+                              request: FlowText.clip(query, max(200, budget / 3)), items: items, budget: budget)
     }
 }
 
@@ -144,20 +144,24 @@ public struct SummaryLine: Sendable, Equatable, Identifiable {
     public var evidence: [EvidenceRef]
 }
 
+public struct SummarySection: Sendable, Equatable, Identifiable {
+    public var id: String { heading }
+    public var heading: String
+    public var records: [MemoryRecord]
+}
+
 public struct TaskSummary: Sendable, Equatable {
     public var task: TaskState
-    public var sections: [(heading: String, records: [MemoryRecord])]
+    public var sections: [SummarySection]
     public var resume: [SummaryLine]
-
-    public static func == (a: TaskSummary, b: TaskSummary) -> Bool { a.task == b.task && a.resume == b.resume }
 
     /// Every sentence is backed by a stored record; nothing is said about outcomes Shapr didn't see.
     public static func build(task: TaskState, records all: [MemoryRecord], now: Date = Date()) -> TaskSummary {
         let rs = all.filter { $0.isCurrent && $0.taskID == task.id }
         let order: [MemoryRecord.Kind] = [.goal, .instruction, .decision, .attempt, .error, .openQuestion, .nextStep, .note]
-        let sections = order.compactMap { k -> (String, [MemoryRecord])? in
+        let sections = order.compactMap { k -> SummarySection? in
             let g = rs.filter { $0.kind == k }.sorted { $0.lastSeen > $1.lastSeen }
-            return g.isEmpty ? nil : (k.heading, g)
+            return g.isEmpty ? nil : SummarySection(heading: k.heading, records: g)
         }
         var lines: [SummaryLine] = []
         let last = rs.map(\.lastSeen).max() ?? task.lastActivity
@@ -174,7 +178,7 @@ public struct TaskSummary: Sendable, Equatable {
                                      evidence: attempts.suffix(2).flatMap { $0.evidence.suffix(1) }))
         }
         if let err = rs.filter({ $0.kind == .error }).max(by: { $0.lastSeen < $1.lastSeen }) {
-            let gist = Text.clip(err.text, 90)
+            let gist = FlowText.clip(err.text, 90)
             // Same read: a terminal shows the command, then its output, so the error came after it.
             if let lastAttempt = attempts.last, err.lastSeen >= lastAttempt.lastSeen {
                 lines.append(SummaryLine(text: "“\(gist)” was still showing at \(FlowFormat.when(err.lastSeen, now: now)), after that.",
@@ -264,16 +268,16 @@ public enum ScenarioExplorer {
     public static func compare(selection: String, paths: [String], records: [MemoryRecord]) -> ScenarioComparison {
         let current = records.filter { $0.isCurrent && $0.kind != .source }
         var used = Set<UUID>()
-        let selStems = Text.stems(selection)
+        let selStems = FlowText.stems(selection)
         let out = paths.map { title -> ScenarioPath in
             var p = ScenarioPath(title: title)
-            let own = Text.stems(title)
+            let own = FlowText.stems(title)
             let ps = own.union(selStems)
             for r in current {
-                let rs = Text.stems(r.text)
+                let rs = FlowText.stems(r.text)
                 // Rules and decisions are judged on the path's own words; the selection only links evidence.
                 let judged = [.instruction, .decision, .goal].contains(r.kind) ? own : ps
-                let o = Text.overlap(judged, rs)
+                let o = FlowText.overlap(judged, rs)
                 guard o.shared >= 1, o.score >= 0.2 else { continue }
                 let link = { (why: String) in ScenarioLink(record: r, why: why) }
                 switch r.kind {
@@ -296,7 +300,7 @@ public enum ScenarioExplorer {
                 }
             }
             for r in current where (r.provenance == .inferred || r.provenance == .hypothesis) && p.consistentWith.contains(where: { $0.record.id == r.id }) {
-                p.assumptions.append("Relies on “\(Text.clip(r.text, 80))”, which Shapr inferred and you haven't confirmed.")
+                p.assumptions.append("Relies on “\(FlowText.clip(r.text, 80))”, which Shapr inferred and you haven't confirmed.")
             }
             if !p.hasEvidence { p.assumptions.append("Shapr has nothing saved about this path; everything about it is open.") }
             return p
@@ -340,7 +344,7 @@ public final class SuggestionEngine {
                 guard let t = tried.last else { continue }
                 shownKeys.insert(err.key)
                 return shown(Suggestion(title: "You've seen this error before",
-                                        detail: "\(FlowFormat.day(ep.endedAt, now: now)): \(Text.clip(err.text, 70)). Then you \(TaskSummary.lowerFirst(t.text)).",
+                                        detail: "\(FlowFormat.day(ep.endedAt, now: now)): \(FlowText.clip(err.text, 70)). Then you \(TaskSummary.lowerFirst(t.text)).",
                                         taskID: tid, evidence: Array(err.evidence.suffix(1)) + Array(t.evidence.suffix(1))), now)
             }
         }

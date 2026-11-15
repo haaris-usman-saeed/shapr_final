@@ -179,6 +179,11 @@ public enum FlowCoreChecks {
             let ctx = again.context(for: "ECONNREFUSED 5432")
             check(!ctx.rendered(includeRequest: false).contains("ECONNREFUSED"), "deleted observations never reappear in AI context")
             check(ctx.items.contains { $0.record.kind == .instruction }, "the user's own words (not from that app) are kept")
+            let portable = FlowEngine.portableTaskSummary(directory: d, now: clock)
+            check(portable.contains("# Current task:") && portable.contains("Don't change the production DATABASE_URL") && !portable.contains("ECONNREFUSED"),
+                  "AI tools (MCP) get the task summary, without anything that was deleted")
+            again.settings.shareTaskWithAITools = false
+            check(FlowEngine.portableTaskSummary(directory: d, now: clock).contains("hasn't allowed"), "…and nothing at all when sharing with AI tools is off")
             let files = again.deleteTask(goodTask)
             check(again.kernel.task(goodTask) == nil && !again.kernel.episodes.contains { $0.taskID == goodTask } && files.isEmpty,
                   "deleting a task removes its records and episodes")

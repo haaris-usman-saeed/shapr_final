@@ -136,11 +136,11 @@ public enum FlowDemo {
             for sec in s.sections {
                 say("  \(sec.heading):")
                 for r in sec.records.prefix(4) {
-                    let src = r.evidence.last.map { " ← \($0.appName)\($0.title.map { ": " + Text.clip($0, 50) } ?? "")" } ?? ""
+                    let src = r.evidence.last.map { " ← \($0.appName)\($0.title.map { ": " + FlowText.clip($0, 50) } ?? "")" } ?? ""
                     say("    • \(r.text) (\(r.provenance.label)\(r.occurrences > 1 ? ", ×\(r.occurrences)" : ""))\(src)")
                 }
             }
-            say("  Sources: " + s.task.sources.map { Text.clip($0.title, 48) }.joined(separator: " | "))
+            say("  Sources: " + s.task.sources.map { FlowText.clip($0.title, 48) }.joined(separator: " | "))
         }
         say("  Other tasks: " + engine.kernel.tasks.filter { $0.id != engine.activeTask?.id }.map(\.title).joined(separator: ", "))
 
@@ -155,10 +155,10 @@ public enum FlowDemo {
         say("  " + ScenarioComparison.disclaimer)
         for p in cmp.paths {
             say("  Path: \(p.title)")
-            for l in p.consistentWith { say("    + \(l.why): \(Text.clip(l.record.text, 70))") }
-            for l in p.possibleTensions { say("    ! \(l.why): \(Text.clip(l.record.text, 70))") }
-            for l in p.triedBefore { say("    ↺ \(l.why): \(Text.clip(l.record.text, 70))") }
-            for l in p.questions { say("    ? \(l.why): \(Text.clip(l.record.text, 70))") }
+            for l in p.consistentWith { say("    + \(l.why): \(FlowText.clip(l.record.text, 70))") }
+            for l in p.possibleTensions { say("    ! \(l.why): \(FlowText.clip(l.record.text, 70))") }
+            for l in p.triedBefore { say("    ↺ \(l.why): \(FlowText.clip(l.record.text, 70))") }
+            for l in p.questions { say("    ? \(l.why): \(FlowText.clip(l.record.text, 70))") }
             for a in p.assumptions { say("    ~ \(a)") }
         }
 

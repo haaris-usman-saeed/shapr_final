@@ -182,7 +182,7 @@ public struct ObservationEvent: Sendable, Identifiable {
     public var fingerprint: UInt64 {
         var h = FNV1a()
         h.add(kind.rawValue); h.add(bundleID); h.add(windowTitle ?? ""); h.add(documentPath ?? "")
-        h.add(Text.stripQuery(url) ?? ""); h.add(Text.normalized(text ?? ""))
+        h.add(FlowText.stripQuery(url) ?? ""); h.add(FlowText.normalized(text ?? ""))
         return h.value
     }
 
@@ -196,7 +196,7 @@ public struct ObservationEvent: Sendable, Identifiable {
         let inferredKind: EvidenceRef.Kind = url != nil ? .page : documentPath != nil ? .document : .window
         return EvidenceRef(id: id, kind: k ?? (kind == .capture ? .capture : kind == .note ? .note : inferredKind),
                            bundleID: bundleID, appName: appName, title: windowTitle,
-                           location: Text.stripQuery(url) ?? documentPath, at: at, excerpt: excerpt, sessionID: sessionID)
+                           location: FlowText.stripQuery(url) ?? documentPath, at: at, excerpt: excerpt, sessionID: sessionID)
     }
 }
 
@@ -265,7 +265,7 @@ public struct MemoryRecord: Codable, Sendable, Identifiable, Equatable {
     public static func key(kind: Kind, text: String) -> UInt64 {
         var h = FNV1a()
         h.add(kind.rawValue)
-        h.add(Text.normalized(text, maskNumbers: kind == .error))
+        h.add(FlowText.normalized(text, maskNumbers: kind == .error))
         return h.value
     }
 

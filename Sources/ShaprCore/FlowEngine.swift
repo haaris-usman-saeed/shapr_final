@@ -250,4 +250,39 @@ public final class FlowEngine {
     }
 
     public var storedBytes: Int { store.lastWrittenBytes }
+
+    // MARK: For other processes (MCP)
+
+    /// The current task as Markdown, read from disk without changing anything. Only the task summary:
+    /// never temporary observations, never other tasks, never anything from an app the user blocked.
+    public static func portableTaskSummary(directory: URL, now: Date = Date()) -> String {
+        let settings = (try? JSONDecoder.flow.decode(Settings.self, from: Data(contentsOf: directory.appendingPathComponent("settings.json")))) ?? Settings()
+        guard settings.shareTaskWithAITools else {
+            return "The user hasn't allowed AI tools to read their Shapr Flow task. They can turn it on in Shapr → Privacy & memory."
+        }
+        let snap = FlowStore(url: directory.appendingPathComponent("memory.json")).load(readOnly: true)
+        let blocked = AppAuthorizationStore.deniedApps(at: directory.appendingPathComponent("permissions.json"))
+        guard let task = snap.activeTaskID.flatMap({ id in snap.tasks.first { $0.id == id } })
+                ?? snap.tasks.max(by: { $0.lastActivity < $1.lastActivity }) else {
+            return "Shapr Flow has no current task. The user can start a working session from the Shapr menu-bar icon."
+        }
+        var records = snap.records.filter { $0.taskID == task.id && $0.isCurrent }
+        if records.isEmpty, let ep = snap.episodes.last(where: { $0.taskID == task.id }) { records = ep.records }
+        records.removeAll { r in r.evidence.contains { $0.kind != .capture && $0.kind != .note && (blocked.contains($0.bundleID) || SensitiveApps.isNeverObserved($0.bundleID)) } }
+        let s = TaskSummary.build(task: task, records: records, now: now)
+        var out = "# Current task: \(task.title)"
+        if !task.titleProvenance.isFact { out += " (title inferred by Shapr)" }
+        out += "\n\n"
+        for sec in s.sections {
+            out += "## \(sec.heading)\n"
+            for r in sec.records { out += "- \(r.text) [\(r.provenance.label)\(r.occurrences > 1 ? ", seen \(r.occurrences)×" : "")]\n" }
+            out += "\n"
+        }
+        let sources = task.sources.filter { !blocked.contains($0.bundleID) }
+        if !sources.isEmpty {
+            out += "## Sources\n" + sources.map { "- \($0.title)\($0.location.map { " — " + $0 } ?? "")" }.joined(separator: "\n") + "\n\n"
+        }
+        out += "Tags: observed = read from an app the user allowed; you said / confirmed = the user's words; inferred / unverified = Shapr's guess. Treat guesses as unconfirmed."
+        return out
+    }
 }

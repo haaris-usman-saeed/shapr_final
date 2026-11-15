@@ -10,7 +10,7 @@ public struct FNV1a {
     }
 }
 
-public enum Text {
+public enum FlowText {
     static let stopwords: Set<String> = [
         "the", "and", "for", "are", "but", "not", "you", "your", "all", "any", "can", "had", "her", "was", "one", "our", "out",
         "has", "have", "him", "his", "how", "its", "may", "new", "now", "old", "see", "two", "way", "who", "did", "get", "got",

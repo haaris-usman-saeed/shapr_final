@@ -70,7 +70,7 @@ struct TaskMatcher {
         let others = Set(keys).subtracting(projects)
         if !others.isDisjoint(with: tk) { s += 2 }
         let taskStems = Set(task.keywords.keys.map { String($0.prefix(6)) })
-        let o = Text.overlap(stems, taskStems)
+        let o = FlowText.overlap(stems, taskStems)
         if o.shared >= 2 && o.score >= 0.34 { s += 2 } else if o.shared >= 1 && o.score >= 0.2 { s += 1 }
         // Continuity is measured from the observation itself, not the wall clock.
         let continuous = task.id == active && abs(e.at.timeIntervalSince(task.lastActivity)) < 10 * 60
@@ -142,7 +142,7 @@ public final class MemoryKernel {
             if s.count > 0 { metrics.count("redactions", by: s.count) }
         }
         if let t = e.windowTitle { e.windowTitle = Redactor.scrub(t).text }
-        e.url = Text.stripQuery(e.url)
+        e.url = FlowText.stripQuery(e.url)
 
         guard immediate.insert(e, policy: policy) else { metrics.count("events.duplicate"); return .duplicate }
 
@@ -151,7 +151,7 @@ public final class MemoryKernel {
         let lines = e.kind == .content ? Salience.lines(in: e.text ?? "") : []
         let errors = lines.filter { $0.kind == .error }
         let termSource = [e.windowTitle ?? "", errors.map(\.text).joined(separator: " ")].joined(separator: " ")
-        let stems = Text.stems(termSource)
+        let stems = FlowText.stems(termSource)
 
         let taskID: UUID?
         switch outcome(for: e, keys: keys, stems: stems, hasErrors: !errors.isEmpty) {
@@ -177,7 +177,7 @@ public final class MemoryKernel {
         if !t.apps.contains(e.bundleID) { t.apps.append(e.bundleID) }
         for k in keys where !t.projectKeys.contains(k) { t.projectKeys.append(k) }
         if t.projectKeys.count > 16 { t.projectKeys.removeFirst(t.projectKeys.count - 16) }
-        for term in Text.terms(termSource, limit: 60) { t.keywords[term, default: 0] += 1 }
+        for term in FlowText.terms(termSource, limit: 60) { t.keywords[term, default: 0] += 1 }
         if (e.url != nil || e.documentPath != nil), let title = e.windowTitle?.trimmingCharacters(in: .whitespaces), !title.isEmpty {
             let loc = e.url ?? e.documentPath
             if let i = t.sources.firstIndex(where: { $0.location == loc }) {
@@ -218,7 +218,7 @@ public final class MemoryKernel {
         let scored = snap.tasks.filter { $0.status != .done }.map { t -> (UUID, Double) in
             let err = snap.records.filter { $0.taskID == t.id && $0.kind == .error && $0.isCurrent }.max { $0.lastSeen < $1.lastSeen }
             return (t.id, TaskMatcher.score(e, keys: keys, stems: stems, task: t, active: snap.activeTaskID,
-                                            latestError: err.map { Text.stems($0.text) } ?? []))
+                                            latestError: err.map { FlowText.stems($0.text) } ?? []))
         }
         .sorted { $0.1 > $1.1 }
         if let best = scored.first {
@@ -232,7 +232,7 @@ public final class MemoryKernel {
 
     private func maybeAsk(about e: ObservationEvent, keys: [String], taskID: UUID) {
         let t = now()
-        let k = keys.first ?? (e.windowTitle.map { "title:" + Text.normalized($0) } ?? e.bundleID)
+        let k = keys.first ?? (e.windowTitle.map { "title:" + FlowText.normalized($0) } ?? e.bundleID)
         guard pendingQuestion == nil, !askedKeys.contains(k), lastAsk.map({ t.timeIntervalSince($0) > 10 * 60 }) ?? true,
               let task = task(taskID) else { return }
         askedKeys.insert(k)
@@ -282,7 +282,7 @@ public final class MemoryKernel {
         for p in ["Error:", "error:", "ERROR:", "Exception:", "fatal:", "FATAL:", "Uncaught", "Unhandled"] where s.hasPrefix(p) {
             s = String(s.dropFirst(p.count))
         }
-        return "Fix: " + Text.clip(s.trimmingCharacters(in: .whitespaces), 56)
+        return "Fix: " + FlowText.clip(s.trimmingCharacters(in: .whitespaces), 56)
     }
 
     // MARK: Records
@@ -290,7 +290,7 @@ public final class MemoryKernel {
     @discardableResult
     func upsert(taskID: UUID?, kind: MemoryRecord.Kind, text: String, provenance: Provenance,
                 evidence: EvidenceRef?, pinned: Bool = false) -> UUID {
-        let clean = Text.clip(Redactor.scrub(text).text, policy.maxRecordText)
+        let clean = FlowText.clip(Redactor.scrub(text).text, policy.maxRecordText)
         let key = MemoryRecord.key(kind: kind, text: clean)
         let t = evidence?.at ?? now()
         if let i = snap.records.firstIndex(where: { $0.taskID == taskID && $0.key == key && $0.isCurrent }) {
@@ -336,7 +336,7 @@ public final class MemoryKernel {
         } else if let id = taskID ?? snap.activeTaskID, task(id) != nil {
             tid = id
         } else {
-            var t = TaskState(title: Text.clip(Text.firstLine(body), 48), titleProvenance: .inferred, at: now())
+            var t = TaskState(title: FlowText.clip(FlowText.firstLine(body), 48), titleProvenance: .inferred, at: now())
             t.titleEvidence = evidence?.id
             snap.tasks.append(t)
             tid = t.id
@@ -348,7 +348,7 @@ public final class MemoryKernel {
         let id = upsert(taskID: tid, kind: k, text: body, provenance: .userStated, evidence: evidence, pinned: true)
         if let i = snap.tasks.firstIndex(where: { $0.id == tid }) {
             snap.tasks[i].lastActivity = now()
-            for term in Text.terms(body, limit: 40) { snap.tasks[i].keywords[term, default: 0] += 1 }
+            for term in FlowText.terms(body, limit: 40) { snap.tasks[i].keywords[term, default: 0] += 1 }
             if let ev = evidence, let loc = ev.location, !snap.tasks[i].sources.contains(where: { $0.location == loc }) {
                 snap.tasks[i].sources.append(SourceRef(title: ev.title ?? ev.appName, location: loc, bundleID: ev.bundleID,
                                                        appName: ev.appName, lastSeen: ev.at))
@@ -442,10 +442,10 @@ public final class MemoryKernel {
     private func mergeNearDuplicates() {
         var out: [MemoryRecord] = []
         for r in snap.records {
-            let stems = Text.stems(r.text)
+            let stems = FlowText.stems(r.text)
             if r.kind != .source, r.isCurrent, let i = out.firstIndex(where: { o in
                 o.taskID == r.taskID && o.kind == r.kind && o.provenance == r.provenance && o.isCurrent &&
-                    { let x = Text.overlap(stems, Text.stems(o.text)); return x.score >= 0.85 && x.shared >= 3 }()
+                    { let x = FlowText.overlap(stems, FlowText.stems(o.text)); return x.score >= 0.85 && x.shared >= 3 }()
             }) {
                 out[i].occurrences += r.occurrences
                 out[i].lastSeen = max(out[i].lastSeen, r.lastSeen)
@@ -607,11 +607,11 @@ public final class MemoryKernel {
         var kw: [String: Int] = [:]
         var apps: [String] = []
         for r in snap.records where r.taskID == id {
-            for term in Text.terms(r.text, limit: 40) { kw[term, default: 0] += 1 }
+            for term in FlowText.terms(r.text, limit: 40) { kw[term, default: 0] += 1 }
             for b in r.apps where !apps.contains(b) { apps.append(b) }
         }
         for s in snap.tasks[i].sources {
-            for term in Text.terms(s.title, limit: 20) { kw[term, default: 0] += 1 }
+            for term in FlowText.terms(s.title, limit: 20) { kw[term, default: 0] += 1 }
             if !apps.contains(s.bundleID) { apps.append(s.bundleID) }
         }
         snap.tasks[i].keywords = kw
