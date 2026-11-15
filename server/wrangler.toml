@@ -1,0 +1,9 @@
+# Deploy: npx wrangler login, npx wrangler r2 bucket create shapr-packs, npx wrangler deploy
+# Then: npx wrangler secret put ADMIN_TOKEN   (any long random string; scripts/release.sh uses it)
+name = "shapr-share"
+main = "src/worker.js"
+compatibility_date = "2026-10-01"
+
+[[r2_buckets]]
+binding = "PACKS"
+bucket_name = "shapr-packs"
