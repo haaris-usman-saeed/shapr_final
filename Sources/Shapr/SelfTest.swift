@@ -1,4 +1,5 @@
 import AppKit
+import ShaprCore
 import CoreText
 import SwiftUI
 
@@ -1023,6 +1024,15 @@ enum SelfTest {
         check(Capture(id: UUID(), text: "func a() {\n    return 1;\n}", capturedAt: Date(), fileName: "a.md").looksLikeCode
               && !Capture(id: UUID(), text: "A normal sentence.\nAnd another one.", capturedAt: Date(), fileName: "b.md").looksLikeCode,
               "code reads in a monospaced font, prose doesn't")
+
+        // Shapr Flow: sessions, app permissions, memory, retrieval (the same checks `swift run ShaprCoreChecks` runs).
+        FlowCoreChecks.run({ ok, what in check(ok, what) }, section: { print($0) })
+        let flowCheckpoint = FlowController.checkpoint(
+            from: TaskSummary.build(task: TaskState(title: "Fix login", titleProvenance: .userStated, at: Date()), records: []),
+            records: [MemoryRecord(taskID: nil, kind: .instruction, text: "Don't touch prod", provenance: .userStated, evidence: [], at: Date()),
+                      MemoryRecord(taskID: nil, kind: .attempt, text: "Maybe the cookie expired", provenance: .hypothesis, evidence: [], at: Date())])
+        check(flowCheckpoint.rules?.first?.text == "Don't touch prod" && flowCheckpoint.tried.first?.text.contains("(unverified)") == true,
+              "a Flow task becomes a checkpoint with rules word for word and guesses labelled")
 
         print(failures == 0 ? "\nAll checks passed." : "\n\(failures) check(s) failed.")
         return failures == 0 ? 0 : 1

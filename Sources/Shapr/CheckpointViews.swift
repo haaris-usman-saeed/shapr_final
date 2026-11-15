@@ -758,9 +758,10 @@ final class ResumeController {
         ))
     }
 
-    func open() {
-        if panel.isVisible { panel.makeKeyAndOrderFront(nil); return }
-        let candidates = [store.equippedPackID, store.activePackID].compactMap { $0 }
+    /// `preferring`: a pack to resume first (Shapr Flow passes the task's pack).
+    func open(preferring preferred: UUID? = nil) {
+        if panel.isVisible, preferred == nil { panel.makeKeyAndOrderFront(nil); return }
+        let candidates = [preferred, store.equippedPackID, store.activePackID].compactMap { $0 }
             + store.packs.map(\.id)
         guard let packID = candidates.first(where: { store.latestCheckpoint(for: $0) != nil }) else {
             let fallback = store.pack(store.equippedPackID) ?? store.packs.first

@@ -1,4 +1,5 @@
 import AppKit
+import ShaprCore
 
 let args = CommandLine.arguments
 
@@ -11,7 +12,13 @@ if args.contains("--selftest") || args.contains("--render") || args.contains("--
     Keychain.blockedServices = [Keychain.defaultService]
 }
 
-if args.contains("--mcp") {
+if args.contains("--flow-demo") {
+    // The Shapr Flow demo story, run through the real engine in a throwaway folder (no permissions needed).
+    let dir = FileManager.default.temporaryDirectory.appendingPathComponent("shapr-flow-demo-\(UUID().uuidString)")
+    print(FlowDemo.narrate(directory: dir, start: Date().addingTimeInterval(-24 * 3600)))
+    try? FileManager.default.removeItem(at: dir)
+    exit(0)
+} else if args.contains("--mcp") {
     MCPServer.runStdio()
 } else if args.contains("--selftest") {
     // A real main run loop (not dispatchMain) so main-actor work runs on the main thread,

@@ -302,6 +302,13 @@ struct SettingsView: View {
     private var privacy: some View {
         Form {
             Section {
+                Button("Open Privacy & Memory…") { (NSApp.delegate as? AppController)?.flow.showPrivacy() }
+            } header: {
+                Text("Shapr Flow: working sessions")
+            } footer: {
+                Text("Which apps Shapr may observe during a session, what it remembers, how long, and where AI runs. Delete anything there.")
+            }
+            Section {
                 if vaultItems.isEmpty {
                     Text("Nothing in your Vault yet.").foregroundStyle(DS.text2)
                 }
