@@ -54,7 +54,7 @@ while i < len(still):
         if (j - i + 30) / 30 > 2.5: runs.append([round(i / 30, 2), round(j / 30, 2)])
         i = j
     else: i += 1
-rep["final_hold"] = [r for r in runs if r[1] >= dur - 1.2 and r[1] - r[0] <= o.final_hold]
+rep["final_hold"] = [r for r in runs if r[1] >= dur - 2.0 and r[1] - r[0] <= o.final_hold]
 runs = [r for r in runs if r not in rep["final_hold"]]
 rep["dead_air"] = runs
 spikes = []

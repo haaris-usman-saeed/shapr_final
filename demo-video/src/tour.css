@@ -47,3 +47,7 @@
 .route .btn { margin-left: auto; }
 .style-orb { width: 22px; height: 22px; border-radius: 50%; background: #5E6B80; color: #fff; font-size: 9.5px; font-weight: 700; display: inline-flex; align-items: center; justify-content: center; }
 .shot-chip .mini-shot { display: inline-block; }
+
+.card-inner { display: flex; flex-direction: column; align-items: center; transform-origin: 50% 50%; }
+.card-glow { position: absolute; left: 50%; top: 50%; width: 1400px; height: 900px; margin: -450px 0 0 -700px; border-radius: 50%;
+  background: radial-gradient(closest-side, rgba(196,98,63,0.16), rgba(196,98,63,0)); pointer-events: none; }
