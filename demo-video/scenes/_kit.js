@@ -78,6 +78,7 @@ export function keyHint(stage, keys, label = "") {
       const a = life(t, t0, t1, 0.22, 0.2);
       const presses = keys.map((_, i) => { const d = t - (t0 + i * 0.16); return d > 0 && d < 0.14 ? 1 : 0; });
       el.querySelectorAll(".kh-key").forEach((k, i) => css(k, { transform: presses[i] ? "translateY(2px)" : "none", background: presses[i] ? "#3A3835" : "#2A2826" }));
+      y = Math.min(y, 790); // always clear of the caption zone
       css(el, { left: px(x), top: px(y), transform: `translate(-50%, 0) translateY(${((1 - ease.enter(prog(t, t0, 0.3))) * 8).toFixed(1)}px)` });
       show(el, a);
     },
