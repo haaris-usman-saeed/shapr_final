@@ -1,0 +1,28 @@
+{
+  "name": "shapr-film",
+  "version": "1.0.0",
+  "description": "Shapr product film: deterministic HTML/SVG scenes rendered frame by frame in headless Chromium, encoded with FFmpeg.",
+  "scripts": {
+    "still": "node scripts/render.mjs still",
+    "proxy:hero": "node scripts/render.mjs film --film hero --proxy && node scripts/assemble.mjs --film hero --proxy",
+    "render:hero": "node scripts/render.mjs film --film hero",
+    "render:trailer": "node scripts/render.mjs film --film trailer",
+    "render:tour": "node scripts/render.mjs film --film tour --hd",
+    "narration": "python3 scripts/audio/narration.py",
+    "audio": "python3 scripts/audio/narration.py && for f in hero trailer tour; do python3 scripts/audio/score.py --film $f; done",
+    "captions": "node scripts/captions.mjs --film hero --out exports/shapr_hero && node scripts/captions.mjs --film trailer --out exports/shapr_trailer_60s && node scripts/captions.mjs --film tour --out exports/shapr_feature_tour",
+    "assemble:hero": "node scripts/assemble.mjs --film hero --name shapr_hero",
+    "assemble:trailer": "node scripts/assemble.mjs --film trailer --name shapr_trailer_60s --no-4k --exact",
+    "assemble:tour": "node scripts/assemble.mjs --film tour --name shapr_feature_tour --hd --exact",
+    "validate": "for f in exports/*.mp4; do python3 scripts/validate.py $f; done",
+    "docs": "node scripts/docs.mjs"
+  },
+  "dependencies": {
+    "@fontsource-variable/fraunces": "^5.3.0",
+    "@fontsource-variable/inter": "^5.3.0",
+    "@fontsource/instrument-serif": "^5.3.0",
+    "@fontsource/jetbrains-mono": "^5.3.0"
+  },
+  "type": "module",
+  "private": true
+}

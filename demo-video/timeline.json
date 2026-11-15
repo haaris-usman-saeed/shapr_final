@@ -1,0 +1,1601 @@
+{
+  "_doc": "One timeline for picture, captions, SRT/VTT and audio. Times are seconds within a scene. Scene durations are whole beats at 104 bpm (1 beat = 0.5769 s) so cuts land on the beat. 'marks' are choreography times the scene code reads and the sound cues reference.",
+  "fps": 30,
+  "bpm": 104,
+  "scenes": {
+    "s01_problem": {
+      "act": "problem",
+      "marks": {
+        "win1": 0.35,
+        "win2": 1.05,
+        "win3": 1.7,
+        "win4": 2.3,
+        "win5": 2.85,
+        "win6": 3.35,
+        "tabsFrom": 3.9,
+        "tabsTo": 6.4,
+        "type1": 6.7,
+        "del1": 8.75,
+        "type2": 9.55,
+        "freeze": 11.35
+      },
+      "narration": [
+        {
+          "id": "n01",
+          "at": 0.6,
+          "text": "Your ideas move between apps. Your work changes. But every time you switch tools, the context gets left behind."
+        }
+      ],
+      "statements": [
+        {
+          "at": 11.6,
+          "dur": 1.9,
+          "text": "Every app has a window."
+        },
+        {
+          "at": 13.75,
+          "dur": 2.1,
+          "text": "But where does\nyour work live?"
+        }
+      ],
+      "sfx": [
+        {
+          "at": 0.35,
+          "name": "win"
+        },
+        {
+          "at": 1.05,
+          "name": "win"
+        },
+        {
+          "at": 1.7,
+          "name": "win"
+        },
+        {
+          "at": 2.3,
+          "name": "win"
+        },
+        {
+          "at": 2.85,
+          "name": "win"
+        },
+        {
+          "at": 3.35,
+          "name": "err"
+        },
+        {
+          "at": 11.6,
+          "name": "statement"
+        },
+        {
+          "at": 13.75,
+          "name": "statement"
+        }
+      ]
+    },
+    "s02_meet": {
+      "act": "today",
+      "marks": {
+        "clear": 0.0,
+        "iconIn": 3.462,
+        "click": 5.0,
+        "menuIn": 5.25,
+        "menuOut": 11.35
+      },
+      "narration": [
+        {
+          "id": "n02a",
+          "at": 1.3,
+          "text": "Meet Shapr."
+        },
+        {
+          "id": "n02b",
+          "at": 3.3,
+          "text": "A companion that carries the context of your work across your computer."
+        }
+      ],
+      "statements": [
+        {
+          "at": 1.154,
+          "dur": 1.9,
+          "text": "Meet Shapr."
+        }
+      ],
+      "sfx": [
+        {
+          "at": 0.0,
+          "name": "clear"
+        },
+        {
+          "at": 3.462,
+          "name": "logo_small"
+        },
+        {
+          "at": 5.15,
+          "name": "click"
+        },
+        {
+          "at": 5.25,
+          "name": "panel"
+        }
+      ]
+    },
+    "s03_circle": {
+      "act": "today",
+      "marks": {
+        "push": 0.3,
+        "trigger": 2.6,
+        "drawStart": 2.95,
+        "drawEnd": 3.85,
+        "lockEnd": 4.2,
+        "cardIn": 4.45,
+        "pull": 4.45,
+        "clickAdd": 7.2,
+        "flyEnd": 8.05,
+        "newPackIn": 8.25
+      },
+      "narration": [
+        {
+          "id": "n03a",
+          "at": 0.55,
+          "text": "See something important?"
+        },
+        {
+          "id": "n03b",
+          "at": 4.75,
+          "text": "Just circle it."
+        }
+      ],
+      "statements": [
+        {
+          "at": 10.75,
+          "dur": 2.0,
+          "text": "Circle it."
+        }
+      ],
+      "sfx": [
+        {
+          "at": 2.6,
+          "name": "trigger"
+        },
+        {
+          "at": 2.95,
+          "name": "draw"
+        },
+        {
+          "at": 3.85,
+          "name": "close"
+        },
+        {
+          "at": 4.45,
+          "name": "panel"
+        },
+        {
+          "at": 7.35,
+          "name": "click"
+        },
+        {
+          "at": 7.4,
+          "name": "lift"
+        },
+        {
+          "at": 8.05,
+          "name": "land"
+        },
+        {
+          "at": 10.75,
+          "name": "statement"
+        }
+      ],
+      "musicDrop": [
+        [
+          2.3,
+          4.8
+        ]
+      ]
+    },
+    "s04_packs": {
+      "act": "today",
+      "marks": {
+        "c1": 0.5,
+        "c2": 2.85,
+        "c3": 5.15,
+        "converge": 7.3,
+        "wheel": 11.0,
+        "pick": 12.9
+      },
+      "narration": [
+        {
+          "id": "n04",
+          "at": 0.6,
+          "text": "Text, screenshots, documents, research. Shapr sorts them into context packs, so what you need doesn't vanish into another tab."
+        }
+      ],
+      "statements": [
+        {
+          "at": 14.65,
+          "dur": 2.35,
+          "text": "Everything important.\nIn context."
+        }
+      ],
+      "sfx": [
+        {
+          "at": 1.2,
+          "name": "lift"
+        },
+        {
+          "at": 1.9,
+          "name": "land"
+        },
+        {
+          "at": 3.75,
+          "name": "close"
+        },
+        {
+          "at": 3.95,
+          "name": "lift"
+        },
+        {
+          "at": 4.65,
+          "name": "land"
+        },
+        {
+          "at": 5.85,
+          "name": "lift"
+        },
+        {
+          "at": 6.55,
+          "name": "land"
+        },
+        {
+          "at": 7.3,
+          "name": "panel"
+        },
+        {
+          "at": 11.0,
+          "name": "wheel"
+        },
+        {
+          "at": 12.9,
+          "name": "click"
+        },
+        {
+          "at": 14.65,
+          "name": "statement"
+        }
+      ]
+    },
+    "s05_doing": {
+      "act": "today",
+      "marks": {
+        "draftIn": 0.5,
+        "insert": 4.95,
+        "formIn": 6.95,
+        "fill": 10.6,
+        "voiceDown": 13.6,
+        "voiceUp": 16.0
+      },
+      "narration": [
+        {
+          "id": "n05a",
+          "at": 0.6,
+          "text": "Draft from your context."
+        },
+        {
+          "id": "n05b",
+          "at": 7.0,
+          "text": "Fill in what you already know."
+        },
+        {
+          "id": "n05c",
+          "at": 13.6,
+          "text": "Or just say it."
+        }
+      ],
+      "statements": [
+        {
+          "at": 17.55,
+          "dur": 2.3,
+          "text": "Less switching.\nMore doing."
+        }
+      ],
+      "sfx": [
+        {
+          "at": 0.5,
+          "name": "panel"
+        },
+        {
+          "at": 5.1,
+          "name": "click"
+        },
+        {
+          "at": 5.2,
+          "name": "insert"
+        },
+        {
+          "at": 6.95,
+          "name": "panel"
+        },
+        {
+          "at": 10.75,
+          "name": "click"
+        },
+        {
+          "at": 10.85,
+          "name": "insert"
+        },
+        {
+          "at": 13.6,
+          "name": "voice"
+        },
+        {
+          "at": 16.05,
+          "name": "lift"
+        },
+        {
+          "at": 16.75,
+          "name": "land"
+        },
+        {
+          "at": 17.55,
+          "name": "statement"
+        }
+      ]
+    },
+    "s06_handoff": {
+      "act": "today",
+      "marks": {
+        "limit": 0.6,
+        "cardIn": 1.6,
+        "clickCont": 3.6,
+        "compress": 4.0,
+        "cardDone": 5.6,
+        "fly": 6.6,
+        "flyEnd": 7.35,
+        "expand": 7.45,
+        "pastedToast": 8.2,
+        "send": 11.25,
+        "readback": 12.4
+      },
+      "narration": [
+        {
+          "id": "n06",
+          "at": 1.0,
+          "text": "Switch AI tools without starting over."
+        }
+      ],
+      "statements": [
+        {
+          "at": 15.25,
+          "dur": 2.45,
+          "text": "Your context shouldn't\nbelong to one AI."
+        }
+      ],
+      "sfx": [
+        {
+          "at": 1.6,
+          "name": "panel"
+        },
+        {
+          "at": 3.75,
+          "name": "click"
+        },
+        {
+          "at": 4.0,
+          "name": "merge"
+        },
+        {
+          "at": 6.6,
+          "name": "lift"
+        },
+        {
+          "at": 7.35,
+          "name": "handoff"
+        },
+        {
+          "at": 8.2,
+          "name": "panel"
+        },
+        {
+          "at": 11.4,
+          "name": "click"
+        },
+        {
+          "at": 12.4,
+          "name": "ok"
+        },
+        {
+          "at": 15.25,
+          "name": "statement"
+        }
+      ],
+      "musicDrop": [
+        [
+          8.4,
+          11.3
+        ]
+      ]
+    },
+    "s07_connected": {
+      "act": "today",
+      "marks": {
+        "a": 0.2,
+        "b": 3.4,
+        "c": 6.4
+      },
+      "narration": [
+        {
+          "id": "n07a",
+          "at": 0.4,
+          "text": "Keep sources connected."
+        },
+        {
+          "id": "n07b",
+          "at": 3.5,
+          "text": "Share on your terms."
+        },
+        {
+          "id": "n07c",
+          "at": 6.5,
+          "text": "Let your AI tools use what you've collected."
+        }
+      ],
+      "statements": [
+        {
+          "at": 9.75,
+          "dur": 2.2,
+          "text": "Connected. Portable. Yours."
+        }
+      ],
+      "sfx": [
+        {
+          "at": 0.2,
+          "name": "panel"
+        },
+        {
+          "at": 1.7,
+          "name": "ok"
+        },
+        {
+          "at": 3.4,
+          "name": "panel"
+        },
+        {
+          "at": 5.0,
+          "name": "click"
+        },
+        {
+          "at": 6.4,
+          "name": "panel"
+        },
+        {
+          "at": 7.4,
+          "name": "ok"
+        },
+        {
+          "at": 9.75,
+          "name": "statement"
+        }
+      ]
+    },
+    "s08_flow": {
+      "act": "flow",
+      "marks": {
+        "chapterOut": 2.9,
+        "sessionClick": 4.3,
+        "sessionIn": 4.5,
+        "p1": 5.6,
+        "a1": 6.9,
+        "p2": 7.5,
+        "a2": 8.6,
+        "p3": 9.2,
+        "b3": 10.55,
+        "lock": 10.7
+      },
+      "narration": [
+        {
+          "id": "n08",
+          "at": 3.3,
+          "text": "Next, we're designing Shapr to follow your workflow, with your permission. You choose which apps it can see, and what it's allowed to remember."
+        }
+      ],
+      "statements": [
+        {
+          "at": 17.6,
+          "dur": 2.35,
+          "text": "Your work.\nYour permission."
+        }
+      ],
+      "concept": [
+        [
+          2.9,
+          20.2
+        ]
+      ],
+      "sfx": [
+        {
+          "at": 0.0,
+          "name": "chapter"
+        },
+        {
+          "at": 4.45,
+          "name": "click"
+        },
+        {
+          "at": 4.5,
+          "name": "panel"
+        },
+        {
+          "at": 5.6,
+          "name": "panel"
+        },
+        {
+          "at": 7.0,
+          "name": "grant"
+        },
+        {
+          "at": 7.5,
+          "name": "panel"
+        },
+        {
+          "at": 8.7,
+          "name": "grant"
+        },
+        {
+          "at": 9.2,
+          "name": "panel"
+        },
+        {
+          "at": 10.65,
+          "name": "lock"
+        },
+        {
+          "at": 17.6,
+          "name": "statement"
+        }
+      ]
+    },
+    "s09_lens": {
+      "act": "flow",
+      "marks": {
+        "trigger": 1.0,
+        "drawStart": 1.25,
+        "drawEnd": 2.05,
+        "menuIn": 2.5,
+        "pickLens": 3.95,
+        "lensIn": 4.2,
+        "chip1": 5.3,
+        "chip2": 6.1,
+        "chip3": 6.9
+      },
+      "narration": [
+        {
+          "id": "n09",
+          "at": 4.6,
+          "text": "Instead of starting another conversation from zero, Lens brings what you already know to the spot where you're working."
+        }
+      ],
+      "statements": [
+        {
+          "at": 13.75,
+          "dur": 2.3,
+          "text": "The right context.\nRight here."
+        }
+      ],
+      "concept": [
+        [
+          0,
+          16.2
+        ]
+      ],
+      "sfx": [
+        {
+          "at": 1.0,
+          "name": "trigger"
+        },
+        {
+          "at": 1.25,
+          "name": "draw"
+        },
+        {
+          "at": 2.05,
+          "name": "close"
+        },
+        {
+          "at": 2.5,
+          "name": "panel"
+        },
+        {
+          "at": 4.1,
+          "name": "click"
+        },
+        {
+          "at": 4.2,
+          "name": "lens"
+        },
+        {
+          "at": 5.3,
+          "name": "tick"
+        },
+        {
+          "at": 6.1,
+          "name": "tick"
+        },
+        {
+          "at": 6.9,
+          "name": "tick"
+        },
+        {
+          "at": 13.75,
+          "name": "statement"
+        }
+      ]
+    },
+    "s10_threads": {
+      "act": "flow",
+      "marks": {
+        "chipsIn": 0.7,
+        "merge": 4.4,
+        "drop": 5.7,
+        "travel": 7.2,
+        "resolve": 8.4,
+        "settle": 10.2
+      },
+      "narration": [
+        {
+          "id": "n10a",
+          "at": 1.0,
+          "text": "Not an endless recording of your screen."
+        },
+        {
+          "id": "n10b",
+          "at": 10.6,
+          "text": "A compact working memory: your goal, what you've tried, and what comes next."
+        }
+      ],
+      "statements": [
+        {
+          "at": 18.9,
+          "dur": 2.85,
+          "text": "Remember what matters.\nForget the noise."
+        }
+      ],
+      "concept": [
+        [
+          0,
+          22.0
+        ]
+      ],
+      "sfx": [
+        {
+          "at": 0.7,
+          "name": "tick"
+        },
+        {
+          "at": 1.0,
+          "name": "tick"
+        },
+        {
+          "at": 1.3,
+          "name": "tick"
+        },
+        {
+          "at": 1.6,
+          "name": "tick"
+        },
+        {
+          "at": 4.4,
+          "name": "merge"
+        },
+        {
+          "at": 5.7,
+          "name": "drop"
+        },
+        {
+          "at": 7.2,
+          "name": "lift"
+        },
+        {
+          "at": 8.3,
+          "name": "land"
+        },
+        {
+          "at": 18.9,
+          "name": "statement"
+        }
+      ],
+      "musicDrop": [
+        [
+          5.4,
+          9.2
+        ]
+      ]
+    },
+    "s11_simulate": {
+      "act": "flow",
+      "marks": {
+        "noteIn": 0.4,
+        "reqIn": 1.6,
+        "split": 3.6,
+        "rows": 4.9
+      },
+      "narration": [
+        {
+          "id": "n11",
+          "at": 1.2,
+          "text": "And when a decision gets complicated, explore the alternatives, and the evidence behind them."
+        }
+      ],
+      "statements": [
+        {
+          "at": 13.75,
+          "dur": 2.3,
+          "text": "Explore before\nyou commit."
+        }
+      ],
+      "concept": [
+        [
+          0,
+          16.2
+        ]
+      ],
+      "sfx": [
+        {
+          "at": 0.4,
+          "name": "panel"
+        },
+        {
+          "at": 1.6,
+          "name": "panel"
+        },
+        {
+          "at": 3.6,
+          "name": "split"
+        },
+        {
+          "at": 4.9,
+          "name": "tick"
+        },
+        {
+          "at": 5.5,
+          "name": "tick"
+        },
+        {
+          "at": 6.1,
+          "name": "tick"
+        },
+        {
+          "at": 6.7,
+          "name": "tick"
+        },
+        {
+          "at": 13.75,
+          "name": "statement"
+        }
+      ]
+    },
+    "s12_resume": {
+      "act": "end",
+      "wallpaper": "morning",
+      "marks": {
+        "dark": 0.0,
+        "wake": 1.45,
+        "cardIn": 2.9,
+        "click": 6.95,
+        "windows": 7.15,
+        "endCard": 10.4,
+        "word": 11.3,
+        "line": 12.2,
+        "small": 13.25
+      },
+      "narration": [
+        {
+          "id": "n12a",
+          "at": 2.3,
+          "text": "And when you come back, you don't have to start over."
+        },
+        {
+          "id": "n12b",
+          "at": 7.35,
+          "text": "Shapr remembers the work, so you can focus on doing it."
+        }
+      ],
+      "statements": [],
+      "concept": [
+        [
+          1.45,
+          10.4
+        ]
+      ],
+      "sfx": [
+        {
+          "at": 1.45,
+          "name": "wake"
+        },
+        {
+          "at": 2.9,
+          "name": "panel"
+        },
+        {
+          "at": 7.1,
+          "name": "click"
+        },
+        {
+          "at": 7.15,
+          "name": "resume"
+        },
+        {
+          "at": 10.4,
+          "name": "logo"
+        }
+      ]
+    }
+  },
+  "films": {
+    "hero": {
+      "title": "Shapr — hero film",
+      "entries": [
+        {
+          "scene": "s01_problem",
+          "dur": 16.1538,
+          "music": "tension"
+        },
+        {
+          "scene": "s02_meet",
+          "dur": 12.1154,
+          "music": "reveal"
+        },
+        {
+          "scene": "s03_circle",
+          "dur": 13.2692,
+          "music": "theme"
+        },
+        {
+          "scene": "s04_packs",
+          "dur": 17.3077,
+          "music": "theme"
+        },
+        {
+          "scene": "s05_doing",
+          "dur": 20.1923,
+          "music": "theme"
+        },
+        {
+          "scene": "s06_handoff",
+          "dur": 17.8846,
+          "music": "theme"
+        },
+        {
+          "scene": "s07_connected",
+          "dur": 12.1154,
+          "music": "theme"
+        },
+        {
+          "scene": "s08_flow",
+          "dur": 20.1923,
+          "music": "flow"
+        },
+        {
+          "scene": "s09_lens",
+          "dur": 16.1538,
+          "music": "flow"
+        },
+        {
+          "scene": "s10_threads",
+          "dur": 21.9231,
+          "music": "flow"
+        },
+        {
+          "scene": "s11_simulate",
+          "dur": 16.1538,
+          "music": "flow"
+        },
+        {
+          "scene": "s12_resume",
+          "dur": 17.8846,
+          "music": "resolve"
+        }
+      ]
+    },
+    "trailer": {
+      "title": "Shapr — 60-second trailer",
+      "entries": [
+        {
+          "scene": "s03_circle",
+          "from": 2.45,
+          "dur": 3.0,
+          "music": "intro",
+          "narration": [],
+          "statements": []
+        },
+        {
+          "scene": "s01_problem",
+          "from": 3.4,
+          "dur": 9.0,
+          "music": "tension",
+          "narration": [
+            {
+              "id": "t01",
+              "at": 6.7,
+              "text": "Every time you switch tools, your context gets left behind."
+            }
+          ],
+          "statements": []
+        },
+        {
+          "scene": "s04_packs",
+          "from": 0.4,
+          "dur": 12.0,
+          "music": "theme",
+          "narration": [
+            {
+              "id": "t02",
+              "at": 0.9,
+              "text": "Shapr keeps what matters in context packs."
+            }
+          ],
+          "statements": [
+            {
+              "at": 9.85,
+              "dur": 2.4,
+              "text": "Everything important.\nIn context."
+            }
+          ]
+        },
+        {
+          "scene": "s06_handoff",
+          "from": 3.0,
+          "dur": 12.0,
+          "music": "theme",
+          "narration": [
+            {
+              "id": "n06",
+              "at": 4.2,
+              "text": "Switch AI tools without starting over."
+            }
+          ],
+          "statements": []
+        },
+        {
+          "scene": "s08_flow",
+          "from": 5.3,
+          "dur": 5.6,
+          "music": "flow",
+          "narration": [
+            {
+              "id": "t03",
+              "at": 5.5,
+              "text": "Next: Shapr Flow. Your work, your permission."
+            }
+          ],
+          "statements": []
+        },
+        {
+          "scene": "s10_threads",
+          "from": 3.9,
+          "dur": 6.4,
+          "music": "flow",
+          "narration": [
+            {
+              "id": "t04",
+              "at": 7.0,
+              "text": "Remember what matters. Forget the noise."
+            }
+          ],
+          "statements": []
+        },
+        {
+          "scene": "s12_resume",
+          "from": 3.0,
+          "dur": 12.0,
+          "music": "resolve",
+          "narration": [
+            {
+              "id": "n12b",
+              "at": 7.35,
+              "text": "Shapr remembers the work, so you can focus on doing it."
+            }
+          ],
+          "statements": []
+        }
+      ]
+    },
+    "tour": {
+      "title": "Shapr — feature tour",
+      "entries": [
+        {
+          "scene": "t_card",
+          "dur": 10.0,
+          "kicker": "Feature tour",
+          "title": "Shapr",
+          "sub": "One project the whole way through: Aurora, and a database that won't connect.",
+          "music": "intro",
+          "narration": [
+            {
+              "id": "T00",
+              "at": 1.0,
+              "text": "This is a tour of Shapr, using one project the whole way through: Aurora, a campus energy app, and a database that won't connect."
+            }
+          ],
+          "statements": [],
+          "sfx": [
+            {
+              "at": 0.0,
+              "name": "chapter"
+            }
+          ]
+        },
+        {
+          "scene": "t_card",
+          "dur": 5.0,
+          "kicker": "Chapter 1",
+          "title": "Capture anything",
+          "sub": "",
+          "music": "intro",
+          "narration": [],
+          "statements": [],
+          "sfx": [
+            {
+              "at": 0.0,
+              "name": "chapter"
+            }
+          ]
+        },
+        {
+          "scene": "s03_circle",
+          "from": 0,
+          "dur": 13.27,
+          "music": "theme",
+          "statements": [],
+          "narration": [
+            {
+              "id": "T01a",
+              "at": 0.4,
+              "text": "Double-tap Command and circle anything on screen."
+            },
+            {
+              "id": "T01a2",
+              "at": 4.7,
+              "text": "Shapr reads the text on your Mac, then offers to add it, or ask about it."
+            }
+          ]
+        },
+        {
+          "scene": "s04_packs",
+          "from": 0,
+          "dur": 7.3,
+          "music": "theme",
+          "statements": [],
+          "narration": [
+            {
+              "id": "T01b",
+              "at": 0.5,
+              "text": "Or highlight text and press Option C. Every capture keeps its source."
+            }
+          ]
+        },
+        {
+          "scene": "t_panels",
+          "variant": "files",
+          "dur": 13.0,
+          "music": "theme",
+          "narration": [
+            {
+              "id": "T01c",
+              "at": 0.8,
+              "text": "Open a file while you work, and Shapr offers to add it."
+            },
+            {
+              "id": "T01d",
+              "at": 8.5,
+              "text": "Capture the same thing twice, and it isn't saved twice."
+            }
+          ],
+          "statements": [],
+          "sfx": [
+            {
+              "at": 0.5,
+              "name": "panel"
+            }
+          ]
+        },
+        {
+          "scene": "t_card",
+          "dur": 5.0,
+          "kicker": "Chapter 2",
+          "title": "Context packs",
+          "sub": "",
+          "music": "intro",
+          "narration": [],
+          "statements": [],
+          "sfx": [
+            {
+              "at": 0.0,
+              "name": "chapter"
+            }
+          ]
+        },
+        {
+          "scene": "s04_packs",
+          "from": 7.0,
+          "dur": 8.3,
+          "music": "theme",
+          "statements": [],
+          "narration": [
+            {
+              "id": "T02a",
+              "at": 7.4,
+              "text": "Captures sort themselves into packs."
+            },
+            {
+              "id": "T02b",
+              "at": 10.9,
+              "text": "Hold Option S for the wheel, and point at a pack to equip it."
+            }
+          ]
+        },
+        {
+          "scene": "t_panels",
+          "variant": "map",
+          "dur": 13.0,
+          "music": "theme",
+          "narration": [
+            {
+              "id": "T02c",
+              "at": 0.8,
+              "text": "The map shows what a pack holds, and what belongs together. It's worked out on your Mac."
+            }
+          ],
+          "statements": [],
+          "sfx": [
+            {
+              "at": 0.5,
+              "name": "panel"
+            }
+          ]
+        },
+        {
+          "scene": "t_card",
+          "dur": 5.0,
+          "kicker": "Chapter 3",
+          "title": "Ask and understand",
+          "sub": "",
+          "music": "intro",
+          "narration": [],
+          "statements": [],
+          "sfx": [
+            {
+              "at": 0.0,
+              "name": "chapter"
+            }
+          ]
+        },
+        {
+          "scene": "t_panels",
+          "variant": "ask",
+          "dur": 16.0,
+          "music": "theme",
+          "narration": [
+            {
+              "id": "T03a",
+              "at": 1.0,
+              "text": "Ask a question, and Shapr answers from your notes."
+            },
+            {
+              "id": "T03b",
+              "at": 9.0,
+              "text": "Each point cites its source. Answers run on your Mac, or with Claude if you add your own key."
+            }
+          ],
+          "statements": [],
+          "sfx": [
+            {
+              "at": 0.5,
+              "name": "panel"
+            }
+          ]
+        },
+        {
+          "scene": "t_panels",
+          "variant": "ask",
+          "dur": 13.0,
+          "music": "theme",
+          "narration": [
+            {
+              "id": "T03c",
+              "at": 1.0,
+              "text": "Ask about a screenshot, and the answer draws on the picture and your pack."
+            }
+          ],
+          "statements": [],
+          "sfx": [
+            {
+              "at": 0.5,
+              "name": "panel"
+            }
+          ],
+          "shot": true
+        },
+        {
+          "scene": "t_panels",
+          "variant": "use",
+          "dur": 13.0,
+          "music": "theme",
+          "narration": [
+            {
+              "id": "T03d",
+              "at": 0.8,
+              "text": "Or use the pack with what you're looking at. You see what Shapr picked, and you can leave anything out."
+            }
+          ],
+          "statements": [],
+          "sfx": [
+            {
+              "at": 0.5,
+              "name": "panel"
+            }
+          ]
+        },
+        {
+          "scene": "t_card",
+          "dur": 5.0,
+          "kicker": "Chapter 4",
+          "title": "Speak naturally",
+          "sub": "",
+          "music": "intro",
+          "narration": [],
+          "statements": [],
+          "sfx": [
+            {
+              "at": 0.0,
+              "name": "chapter"
+            }
+          ]
+        },
+        {
+          "scene": "s05_doing",
+          "from": 13.1,
+          "dur": 7.0,
+          "music": "theme",
+          "statements": [],
+          "narration": [
+            {
+              "id": "T04a",
+              "at": 13.3,
+              "text": "Hold Option V, and say what you want."
+            }
+          ]
+        },
+        {
+          "scene": "t_panels",
+          "variant": "say",
+          "dur": 11.0,
+          "music": "theme",
+          "narration": [
+            {
+              "id": "T04b",
+              "at": 3.4,
+              "text": "Not sure what to say? Ask, and Shapr shows you."
+            }
+          ],
+          "statements": [],
+          "sfx": [
+            {
+              "at": 0.5,
+              "name": "panel"
+            }
+          ]
+        },
+        {
+          "scene": "t_card",
+          "dur": 5.0,
+          "kicker": "Chapter 5",
+          "title": "Get things done",
+          "sub": "",
+          "music": "intro",
+          "narration": [],
+          "statements": [],
+          "sfx": [
+            {
+              "at": 0.0,
+              "name": "chapter"
+            }
+          ]
+        },
+        {
+          "scene": "s05_doing",
+          "from": 0,
+          "dur": 13.1,
+          "music": "theme",
+          "statements": [],
+          "narration": [
+            {
+              "id": "T05a",
+              "at": 0.6,
+              "text": "Shapr drafts from the pack, and only from the pack. Nothing is pasted until you press Insert."
+            },
+            {
+              "id": "T05b",
+              "at": 7.0,
+              "text": "Forms are filled with values from your notes. You check each one. You press Submit."
+            }
+          ]
+        },
+        {
+          "scene": "t_panels",
+          "variant": "style",
+          "dur": 12.0,
+          "music": "theme",
+          "narration": [
+            {
+              "id": "T05c",
+              "at": 0.8,
+              "text": "It picks the right pack for who you're writing to, and it can borrow your voice from a style pack, without taking facts from it."
+            }
+          ],
+          "statements": [],
+          "sfx": [
+            {
+              "at": 0.5,
+              "name": "panel"
+            }
+          ]
+        },
+        {
+          "scene": "t_panels",
+          "variant": "vault",
+          "dur": 12.0,
+          "music": "theme",
+          "narration": [
+            {
+              "id": "T05d",
+              "at": 0.8,
+              "text": "Passwords and IDs come only from your Vault, unlocked with Touch ID. Consent boxes are never ticked for you."
+            }
+          ],
+          "statements": [],
+          "sfx": [
+            {
+              "at": 0.5,
+              "name": "panel"
+            }
+          ]
+        },
+        {
+          "scene": "t_card",
+          "dur": 5.0,
+          "kicker": "Chapter 6",
+          "title": "AI continuity",
+          "sub": "",
+          "music": "intro",
+          "narration": [],
+          "statements": [],
+          "sfx": [
+            {
+              "at": 0.0,
+              "name": "chapter"
+            }
+          ]
+        },
+        {
+          "scene": "t_panels",
+          "variant": "checkpoint",
+          "dur": 12.0,
+          "music": "theme",
+          "narration": [
+            {
+              "id": "T06a",
+              "at": 0.8,
+              "text": "Save progress, and Shapr drafts a checkpoint: your goal, your rules word for word, what you've tried, and what's next."
+            }
+          ],
+          "statements": [],
+          "sfx": [
+            {
+              "at": 0.5,
+              "name": "panel"
+            }
+          ]
+        },
+        {
+          "scene": "s06_handoff",
+          "from": 0,
+          "dur": 15.0,
+          "music": "theme",
+          "statements": [],
+          "narration": [
+            {
+              "id": "T06b",
+              "at": 0.9,
+              "text": "When a free AI runs out of messages, Shapr hands the chat to another one."
+            },
+            {
+              "id": "T06c",
+              "at": 8.6,
+              "text": "The handoff waits in the message box. You check it, and you send it."
+            }
+          ]
+        },
+        {
+          "scene": "t_panels",
+          "variant": "continue",
+          "dur": 12.0,
+          "music": "theme",
+          "narration": [
+            {
+              "id": "T06d",
+              "at": 0.8,
+              "text": "Resume in any tool. If something changed since you saved, Shapr tells you first."
+            }
+          ],
+          "statements": [],
+          "sfx": [
+            {
+              "at": 0.5,
+              "name": "panel"
+            }
+          ]
+        },
+        {
+          "scene": "t_card",
+          "dur": 5.0,
+          "kicker": "Chapter 7",
+          "title": "Connected knowledge",
+          "sub": "",
+          "music": "intro",
+          "narration": [],
+          "statements": [],
+          "sfx": [
+            {
+              "at": 0.0,
+              "name": "chapter"
+            }
+          ]
+        },
+        {
+          "scene": "s07_connected",
+          "from": 0,
+          "dur": 12.1,
+          "music": "theme",
+          "statements": []
+        },
+        {
+          "scene": "t_panels",
+          "variant": "live",
+          "dur": 10.0,
+          "music": "theme",
+          "narration": [
+            {
+              "id": "T07a",
+              "at": 0.6,
+              "text": "Share a pack as a live link. People who add it stay in sync, and anything private waits for your review."
+            }
+          ],
+          "statements": [],
+          "sfx": [
+            {
+              "at": 0.5,
+              "name": "panel"
+            }
+          ]
+        },
+        {
+          "scene": "t_card",
+          "dur": 5.0,
+          "kicker": "Chapter 8",
+          "title": "Shapr Flow",
+          "sub": "A concept: what we're designing next",
+          "music": "intro",
+          "narration": [
+            {
+              "id": "T08",
+              "at": 0.6,
+              "text": "Everything from here is a concept."
+            }
+          ],
+          "statements": [],
+          "sfx": [
+            {
+              "at": 0.0,
+              "name": "chapter"
+            }
+          ],
+          "flow": true
+        },
+        {
+          "scene": "s08_flow",
+          "from": 2.9,
+          "dur": 14.6,
+          "music": "flow",
+          "statements": []
+        },
+        {
+          "scene": "s09_lens",
+          "from": 0,
+          "dur": 13.6,
+          "music": "flow",
+          "statements": []
+        },
+        {
+          "scene": "s10_threads",
+          "from": 0,
+          "dur": 18.7,
+          "music": "flow",
+          "statements": []
+        },
+        {
+          "scene": "s11_simulate",
+          "from": 0,
+          "dur": 13.6,
+          "music": "flow",
+          "statements": []
+        },
+        {
+          "scene": "t_panels",
+          "variant": "flowctl",
+          "dur": 13.0,
+          "music": "flow",
+          "narration": [
+            {
+              "id": "T08a",
+              "at": 0.8,
+              "text": "You stay in control: pause the session, revoke an app, or delete what it remembered. Temporary details expire on their own."
+            }
+          ],
+          "statements": [],
+          "sfx": [
+            {
+              "at": 0.5,
+              "name": "panel"
+            }
+          ],
+          "concept": [
+            [
+              0,
+              13.0
+            ]
+          ]
+        },
+        {
+          "scene": "s12_resume",
+          "from": 0,
+          "dur": 10.4,
+          "music": "resolve",
+          "statements": []
+        },
+        {
+          "scene": "t_card",
+          "dur": 8.5,
+          "kicker": "",
+          "title": "Shapr isn't about collecting everything.\nIt's about remembering what matters.",
+          "sub": "",
+          "music": "intro",
+          "narration": [
+            {
+              "id": "T09",
+              "at": 0.7,
+              "text": "Shapr isn't about collecting everything. It's about remembering what matters."
+            }
+          ],
+          "statements": [],
+          "sfx": [
+            {
+              "at": 0.0,
+              "name": "chapter"
+            }
+          ],
+          "long": true
+        },
+        {
+          "scene": "s12_resume",
+          "from": 10.2,
+          "dur": 7.7,
+          "music": "resolve",
+          "statements": [],
+          "narration": [],
+          "concept": []
+        }
+      ]
+    }
+  }
+}

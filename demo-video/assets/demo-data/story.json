@@ -1,0 +1,131 @@
+{
+  "_note": "Every string the film shows comes from this file or from the files next to it. Fictional people, addresses and data only.",
+  "user": "Maya",
+  "project": "Aurora",
+  "projectLine": "A student-built platform for visualising campus energy use",
+  "pack": { "name": "Aurora — Backend", "initials": "AB", "color": "#197F93" },
+  "otherPacks": [
+    { "name": "Aurora — Frontend", "initials": "AF", "color": "#3970D5", "count": 9 },
+    { "name": "Energy Research", "initials": "ER", "color": "#288356", "count": 14 },
+    { "name": "Thesis Reading", "initials": "TR", "color": "#A0690D", "count": 22 },
+    { "name": "Design Crit", "initials": "DC", "color": "#9B4BA0", "count": 5 }
+  ],
+  "files": {
+    "code": "aurora-api/src/db.js",
+    "env": "aurora-api/.env",
+    "terminal": "aurora-api/terminal.log",
+    "docs": "connection-docs.md",
+    "architecture": "architecture-notes.md",
+    "email": "email.txt"
+  },
+  "error": "Error: connect ECONNREFUSED 127.0.0.1:5432",
+  "tried": ["Checked credentials", "Restarted the service", "Read the connection docs"],
+  "nextStep": "Verify DB_HOST and DB_PORT in .env",
+  "goal": "Connect the Aurora API to PostgreSQL",
+  "chatTyped": "Here's what I've tried so far…",
+  "captures": [
+    { "kind": "Text", "title": "ECONNREFUSED means nothing is listening…", "source": "wiki.aurora-team.example · Browser" },
+    { "kind": "Screenshot", "title": "Architecture diagram", "source": "aurora-architecture.pdf · Preview" },
+    { "kind": "Link", "title": "node-postgres: Connecting", "source": "node-postgres.com · Browser" }
+  ],
+  "packSources": [
+    { "title": "aurora-team/aurora-api", "kind": "GitHub repo", "status": "Updated just now" }
+  ],
+  "email": {
+    "from": "Jordan Lee",
+    "address": "jordan@aurora-team.example",
+    "subject": "Backend progress update",
+    "body": "How is the database connection going? We'd like to show live energy data at Friday's check-in.",
+    "draft": [
+      "Hi Jordan,",
+      "The API starts, but it can't reach Postgres yet (ECONNREFUSED on 127.0.0.1:5432). I've checked the credentials and restarted the service.",
+      "Next I'm verifying DB_HOST and DB_PORT in .env. I'll update you before Friday.",
+      "Maya"
+    ],
+    "basedOn": 4
+  },
+  "form": {
+    "title": "Campus Innovation Showcase",
+    "subtitle": "Project submission",
+    "url": "showcase.campus.example/submit",
+    "fields": [
+      { "label": "Project title", "value": "Aurora" },
+      { "label": "Team name", "value": "Team Aurora" },
+      { "label": "Description", "value": "A student-built platform for visualising campus energy use." },
+      { "label": "Technical approach", "value": "Web front end, Node API, PostgreSQL database" },
+      { "label": "Status", "value": "In development" }
+    ]
+  },
+  "voice": "Save this to Aurora Backend",
+  "chatA": {
+    "service": "ChatGPT",
+    "turns": [
+      ["U", "My Node API can't connect to Postgres. ECONNREFUSED 127.0.0.1:5432."],
+      ["A", "That usually means nothing is listening on that port. Is Postgres running?"],
+      ["U", "Yes, it's running. Rule: don't suggest switching databases."],
+      ["A", "Then check the credentials in your .env and restart the service."],
+      ["U", "Did both. Still refused."],
+      ["A", "Let's look at where the API thinks the database is…"]
+    ],
+    "limit": "You've hit the Free plan limit"
+  },
+  "handoff": {
+    "target": "Claude",
+    "rows": [
+      ["Goal", "Connect the Aurora API to PostgreSQL"],
+      ["Rules", "“Don't suggest switching databases.”"],
+      ["Tried", "Credentials · restarted the service · docs"],
+      ["Evidence", "S1 error log · S2 db.js · S3 .env"],
+      ["Next", "Verify DB_HOST and DB_PORT in .env"]
+    ],
+    "meta": "All 6 messages · about 900 tokens"
+  },
+  "share": { "finding": "jordan@aurora-team.example", "kind": "Email address" },
+  "mcp": { "client": "AI client", "tool": "read_pack", "arg": "Aurora — Backend", "result": "6 captures · 1 checkpoint" },
+  "flow": {
+    "sessionTitle": "Working session",
+    "sessionPack": "Aurora — Backend",
+    "apps": [
+      { "name": "Code", "state": "Allowed" },
+      { "name": "Browser", "state": "Allowed" },
+      { "name": "Messages", "state": "Blocked" }
+    ],
+    "lens": [
+      { "label": "Seen before", "text": "Same error on Oct 28, after a restart", "chip": "checkpoint · Oct 28" },
+      { "label": "Related", "text": "“Check that DB_HOST and DB_PORT point to where Postgres runs”", "chip": "connection-docs.md" },
+      { "label": "Possible next step", "text": "Compare .env with where Postgres is running", "chip": ".env" }
+    ],
+    "events": [
+      { "text": "opened .env", "keep": true },
+      { "text": "read: connection docs", "keep": true },
+      { "text": "restarted service", "keep": true },
+      { "text": "tab: dining hall menu", "keep": false },
+      { "text": "restarted service", "dupOf": 2 },
+      { "text": "checked credentials", "keep": true },
+      { "text": "read: connection docs", "dupOf": 1 },
+      { "text": "music: focus playlist", "keep": false }
+    ],
+    "thread": [
+      ["Current goal", "Connect the Aurora API to PostgreSQL"],
+      ["Already tried", "Credentials · restart · connection docs"],
+      ["Current blocker", "ECONNREFUSED 127.0.0.1:5432"],
+      ["Next step", "Verify DB_HOST and DB_PORT in .env"]
+    ],
+    "simulate": {
+      "note": "Keep application data local",
+      "requirement": "Support real-time team collaboration",
+      "options": [
+        { "title": "Local-first + sync layer",
+          "rows": [["Advantage", "Works offline; data stays on each device"], ["Tradeoff", "Merging edits adds work"], ["Source", "architecture-notes.md"], ["Open assumption", "Team edits rarely overlap?"]] },
+        { "title": "Managed shared backend",
+          "rows": [["Advantage", "One shared copy; live updates are simpler"], ["Tradeoff", "Depends on a hosted service"], ["Source", "Jordan's email"], ["Open assumption", "Campus allows hosted data?"]] }
+      ]
+    },
+    "resume": {
+      "title": "Welcome back.",
+      "question": "Continue fixing the database connection?",
+      "lines": [["Working toward", "Connect the Aurora API to PostgreSQL"], ["Already tried", "Credentials · restart · docs"], ["Next", "Verify DB_HOST and DB_PORT in .env"]],
+      "button": "Continue"
+    }
+  }
+}

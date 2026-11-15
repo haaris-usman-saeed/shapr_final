@@ -1,0 +1,9 @@
+maya@aurora-api % npm run dev
+
+> aurora-api@0.4.0 dev
+> node src/server.js
+
+Aurora API listening on :8080
+Error: connect ECONNREFUSED 127.0.0.1:5432
+    at TCPConnectWrap.afterConnect [as oncomplete] (node:net:1607:16)
+maya@aurora-api % 

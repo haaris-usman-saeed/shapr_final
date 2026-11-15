@@ -1,0 +1,7 @@
+From: Jordan Lee <jordan@aurora-team.example>
+To: Maya
+Subject: Backend progress update
+
+Hi Maya,
+How is the database connection going? We'd like to show live energy data at Friday's check-in.
+Jordan
