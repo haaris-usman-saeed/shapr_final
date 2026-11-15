@@ -1,13 +1,13 @@
 {
- "file": "exports/proxy/shapr_trailer_proxy.mp4",
+ "file": "exports/shapr_hero_captions.mp4",
  "video": {
   "codec": "h264",
   "profile": "High",
-  "width": 960,
-  "height": 540,
+  "width": 1920,
+  "height": 1080,
   "fps": "30/1",
   "pix_fmt": "yuv420p",
-  "frames": 1800
+  "frames": 6042
  },
  "audio": [
   {
@@ -16,21 +16,27 @@
    "channels": 2
   }
  ],
- "duration": 60.0,
- "contact_sheet": "qa/sheet-shapr_trailer_proxy.png",
+ "duration": 201.4,
+ "contact_sheet": "qa/sheet-shapr_hero_captions.png",
+ "final_hold": [
+  [
+   197.0,
+   199.87
+  ]
+ ],
  "dead_air": [],
  "spikes": [],
  "diff_stats": {
-  "frame_diff_median": 0.127,
-  "one_second_diff_min": 0.265,
-  "max": 71.19
+  "frame_diff_median": 0.167,
+  "one_second_diff_min": 0.055,
+  "max": 227.63
  },
  "loudness": {
   "integrated_lufs": -16.0,
   "true_peak_dbtp": -1.5
  },
  "captions": {
-  "count": 6,
+  "count": 27,
   "too_short_or_outside": [],
   "overlapping": []
  },

@@ -18,37 +18,17 @@
  ],
  "duration": 363.167,
  "contact_sheet": "qa/sheet-shapr_feature_tour.png",
- "final_hold": [],
- "dead_air": [
-  [
-   1.2,
-   3.97
-  ],
-  [
-   5.23,
-   8.2
-  ],
-  [
-   49.0,
-   51.83
-  ],
-  [
-   145.33,
-   147.77
-  ],
-  [
-   187.4,
-   190.3
-  ],
+ "final_hold": [
   [
    358.83,
    361.63
   ]
  ],
+ "dead_air": [],
  "spikes": [],
  "diff_stats": {
-  "frame_diff_median": 0.144,
-  "one_second_diff_min": 0.071,
+  "frame_diff_median": 0.145,
+  "one_second_diff_min": 0.097,
   "max": 225.67
  },
  "loudness": {
@@ -60,8 +40,6 @@
   "too_short_or_outside": [],
   "overlapping": []
  },
- "problems": [
-  "dead air: [[1.2, 3.97], [5.23, 8.2], [49.0, 51.83], [145.33, 147.77], [187.4, 190.3], [358.83, 361.63]]"
- ],
- "pass": false
+ "problems": [],
+ "pass": true
 }
