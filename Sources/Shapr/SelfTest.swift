@@ -158,7 +158,9 @@ enum SelfTest {
         check((initReply?["result"] as? [String: Any])?["protocolVersion"] as? String == "2025-06-18", "initialize echoes the protocol version")
         check(mcp.handle(["jsonrpc": "2.0", "method": "notifications/initialized"]) == nil, "notifications get no reply")
         let toolsReply = mcp.handle(["jsonrpc": "2.0", "id": 2, "method": "tools/list"])
-        check(((toolsReply?["result"] as? [String: Any])?["tools"] as? [Any])?.count == 8, "lists 8 tools")
+        let toolList = (toolsReply?["result"] as? [String: Any])?["tools"] as? [[String: Any]]
+        check(toolList?.count == 9, "lists 9 tools")
+        check(toolList?.contains { $0["name"] as? String == "get_current_task" } == true, "includes Shapr Flow's get_current_task")
         func callText(_ name: String, _ args: [String: Any]) -> (String, Bool) {
             let r = mcp.handle(["jsonrpc": "2.0", "id": 3, "method": "tools/call", "params": ["name": name, "arguments": args]])
             let result = r?["result"] as? [String: Any]
