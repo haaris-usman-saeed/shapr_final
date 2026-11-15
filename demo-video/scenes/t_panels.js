@@ -213,6 +213,19 @@ export default async function (ctx) {
     B.tick = (t) => { css(row, { opacity: ease.enter(prog(t, 0.6, 0.4)).toFixed(3) }); css(row2, { opacity: ease.enter(prog(t, 1.4, 0.4)).toFixed(3) }); };
   }
 
+  if (v === "poster") {
+    // A still for print: the library on a clean desktop, plus the "Added to" corner card. No cursor.
+    const lib = libraryWindow(story, files);
+    stage.addWindow({ title: `${P.name} — Shapr`, x: 230, y: 130, w: 1320, h: 820, body: lib.el });
+    const card = toastCard({ title: "“ECONNREFUSED means nothing is listening at that host and port.”", meta: `Added to ${P.name} · wiki.aurora-team.example · Browser · just now`, pack: P, actions: [{ label: "Undo" }, { label: "Move" }] });
+    stage.shapr.append(card.el);
+    css(card.el, { left: px(TX), top: px(TY) });
+    stage.menubar.app.textContent = "Shapr";
+    B.cam = [[0, { x: 960, y: 540, s: 1.0 }]];
+    B.cur = [];
+    B.still = true;
+  }
+
   if (v === "flowctl") {
     // Concept: session controls
     devWindows(stage, files, { editor: { x: 110, y: 92, w: 1040, h: 560 }, term: { x: 760, y: 470, w: 1060, h: 450 } }).tmw.set({ opacity: 0 });
@@ -240,7 +253,7 @@ export default async function (ctx) {
   return (t) => {
     B.tick(t);
     if (B.veil) { stage.dim(1, 0, 8); css(stage.veil, { background: "#F4F0EA", opacity: String(B.veil) }); }
-    stage.camera(keys(t, B.cam.length > 1 ? B.cam : [...B.cam, [99, B.cam[0][1]]]), t, 1);
-    stage.cursor(cursorAt(t, B.cur));
+    stage.camera(keys(t, B.cam.length > 1 ? B.cam : [...B.cam, [99, B.cam[0][1]]]), t, B.still ? 0 : 1);
+    stage.cursor(B.cur.length ? cursorAt(t, B.cur) : null);
   };
 }

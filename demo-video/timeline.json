@@ -1596,6 +1596,18 @@
           "concept": []
         }
       ]
+    },
+    "posters": {
+      "title": "Poster stills",
+      "entries": [
+        {
+          "scene": "t_panels",
+          "variant": "poster",
+          "dur": 1,
+          "narration": [],
+          "statements": []
+        }
+      ]
     }
   }
 }
