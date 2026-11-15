@@ -33,6 +33,10 @@ final class FlowController {
     private lazy var observer: ActivityObserver = {
         let o = ActivityObserver(engine: engine)
         o.onNeedsPermission = { [weak self] app in self?.askPermission(app) }
+        o.onActivated = { [weak self] bundleID in
+            guard let self, let asked = self.prompt.bundleID, asked != bundleID else { return }
+            self.prompt.cancel()
+        }
         return o
     }()
     private let prompt = PermissionPromptController()
@@ -62,16 +66,17 @@ final class FlowController {
 
     // MARK: Session
 
-    func startSession() {
+    func startSession(offerResume offer: Bool = true) {
         engine.start()
         observer.start()
         refresh()
-        if let r = engine.resumeCandidate() { offerResume(r) }
+        if offer, let r = engine.resumeCandidate() { offerResume(r) }
     }
 
     func pause() {
         engine.pause()
         observer.stop() // nothing runs while paused
+        prompt.cancel()
         refresh()
     }
 
@@ -84,7 +89,7 @@ final class FlowController {
     func endSession() {
         observer.stop()
         engine.end()
-        prompt.close()
+        prompt.cancel()
         refresh()
         toast.show(ToastContent(icon: .symbol("stop.circle"), title: "Session ended",
                                 subtitle: engine.lastEpisodes.isEmpty ? "Nothing new was kept." : "Kept \(engine.lastEpisodes.count) task summar\(engine.lastEpisodes.count == 1 ? "y" : "ies") for next time. Temporary observations were cleared."),
@@ -122,9 +127,14 @@ final class FlowController {
         m.immediateCount = engine.kernel.immediate.events.count
         m.recordCount = engine.kernel.records.count
         m.loadProblem = engine.loadProblem
-        if case .available = SystemLanguageModel.default.availability { m.localModel = true } else { m.localModel = false }
-        m.claudeReady = SorterSettings.apiKey != nil
         onRefresh()
+    }
+
+    /// What's available for Lens (the on-device model, a Claude key). Checked when a surface opens,
+    /// not after every observation, since reading the key touches the Keychain.
+    func refreshCapabilities() {
+        if case .available = SystemLanguageModel.default.availability { model.localModel = true } else { model.localModel = false }
+        model.claudeReady = SorterSettings.apiKey != nil
     }
 
     func refreshMetrics() {
@@ -147,7 +157,7 @@ final class FlowController {
     private func askPermission(_ app: NSRunningApplication) {
         guard let b = app.bundleIdentifier, engine.decision(for: b) == .ask else { return }
         let name = app.localizedName ?? b
-        prompt.show(appName: name, icon: app.icon) { [weak self] choice in
+        prompt.show(bundleID: b, appName: name, icon: app.icon) { [weak self] choice in
             guard let self else { return }
             if let access = choice {
                 self.engine.setAccess(access, bundleID: b, name: name)
@@ -273,6 +283,7 @@ final class FlowController {
     func togglePopover(from button: NSStatusBarButton) {
         if let p = popover, p.isShown { p.performClose(nil); return }
         refresh()
+        refreshCapabilities()
         let p = NSPopover()
         p.behavior = .transient
         p.animates = !NSWorkspace.shared.accessibilityDisplayShouldReduceMotion
@@ -287,6 +298,7 @@ final class FlowController {
     func showPrivacy() {
         closePopover()
         refresh()
+        refreshCapabilities()
         refreshMetrics()
         if let w = privacyWindow { w.makeKeyAndOrderFront(nil); NSApp.activate(); return }
         let w = NSWindow(contentRect: NSRect(x: 0, y: 0, width: 560, height: 640),

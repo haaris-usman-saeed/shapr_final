@@ -144,6 +144,8 @@ final class ActivityObserver {
     /// The app needs a decision: show the prompt.
     var onNeedsPermission: (NSRunningApplication) -> Void = { _ in }
     var onRead: () -> Void = {}
+    /// Another app came to the front (used to withdraw a prompt about the previous one).
+    var onActivated: (String) -> Void = { _ in }
 
     private var tokens: [NSObjectProtocol] = []
     private var distributed: [NSObjectProtocol] = []
@@ -234,6 +236,7 @@ final class ActivityObserver {
         if let prev = front?.bundleIdentifier, prev != b { engine.noteDeactivated(prev) }
         front = app
         engine.noteActivated(b)
+        onActivated(b)
         settle?.cancel()
         debounce?.cancel()
         // Rapid switching (⌘-Tab through apps) settles before anything is looked at.

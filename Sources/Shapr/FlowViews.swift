@@ -41,9 +41,12 @@ private func appIcon(_ bundleID: String) -> NSImage? {
 final class PermissionPromptController {
     private let panel = FloatingPanel(size: NSSize(width: 460, height: 200), level: .statusBar)
     private var done: ((AppAccess?) -> Void)?
+    /// The app the visible prompt is about.
+    private(set) var bundleID: String?
 
-    func show(appName: String, icon: NSImage?, completion: @escaping (AppAccess?) -> Void) {
-        done?(nil) // a newer prompt replaces an unanswered one: that one counts as "not now"
+    /// A newer prompt replaces an unanswered one silently: that app is simply asked again next time.
+    func show(bundleID: String, appName: String, icon: NSImage?, completion: @escaping (AppAccess?) -> Void) {
+        self.bundleID = bundleID
         done = completion
         let view = PermissionPromptView(appName: appName, icon: icon) { [weak self] choice in
             MainActor.assumeIsolated { self?.answer(choice) }
@@ -62,11 +65,15 @@ final class PermissionPromptController {
         panel.orderOut(nil)
         let d = done
         done = nil
+        bundleID = nil
         d?(a)
     }
 
-    func close() {
-        if panel.isVisible { answer(nil) }
+    /// Closes without recording any choice (you moved on to another app, or the session ended).
+    func cancel() {
+        panel.orderOut(nil)
+        done = nil
+        bundleID = nil
     }
 }
 
@@ -297,6 +304,7 @@ final class FlowPanelController {
         m.consent = false
         m.sendImage = false
         m.package = flow.engine.context(for: text, budget: 3500)
+        flow.refreshCapabilities()
         present()
         explainLocally()
     }
@@ -882,7 +890,7 @@ struct FlowHomeView: View {
                 Text(line.text).font(.dsCallout).foregroundStyle(DS.text).fixedSize(horizontal: false, vertical: true)
             }
             HStack {
-                Button("Continue") { flow.startSession(); flow.continueTask(r.task.id) }.buttonStyle(.dsPrimary)
+                Button("Continue") { flow.startSession(offerResume: false); flow.continueTask(r.task.id) }.buttonStyle(.dsPrimary)
                 Button("Review context") { flow.reviewTask(r.task.id) }.buttonStyle(.dsSecondary)
             }
         }
