@@ -1,7 +1,7 @@
 import "./styles/main.css";
 import { clock } from "./engine/clock";
 import { frame, clearTweens, set } from "./engine/anim";
-import { D, buildStage, fit, camReset, cur, placeCursor, h } from "./ui/desktop";
+import { D, buildStage, fit, camReset, cur, placeCursor, h, camTick, drift } from "./ui/desktop";
 import { buildWorld } from "./ui/world";
 import { bindStatus, buildPop, resetShaprUI, iconHook } from "./ui/shapr";
 import { actions, clearListeners } from "./state/store";
@@ -35,6 +35,7 @@ function resetWorld() {
 function startProgram(program: string) {
   mode = "play";
   resetWorld();
+  drift.on = true;
   director.load(program);
   set(D.icon, { o: 0 });
   director.run();
@@ -48,6 +49,8 @@ async function playFrom(program: string, sceneIndex: number) {
 function explore() {
   mode = "explore";
   resetWorld();
+  drift.on = false; // the presenter's pointer needs a still desktop
+  camReset();
   enterInteractive();
   chromeEl.classList.add("show");
 }
@@ -86,7 +89,7 @@ let lastTick = 0;
 async function loop(now: number) {
   if (!clock.manual) {
     await clock.liveStep(now);
-    frame();
+    frame(); camTick(clock.time);
     if (clock.time - lastTick > 500) { lastTick = clock.time; actions.tick(); }
     if (mode === "play") {
       const i = director.sceneAt(clock.time);
@@ -101,7 +104,7 @@ async function loop(now: number) {
 // ---------- capture hooks (scripts/capture.mjs) ----------
 (window as any).__capture = {
   async start(program: string) { clock.manual = true; startProgram(program); return { total: director.total, starts: director.starts, scenes: director.scenes.map((s) => s.id) }; },
-  async at(ms: number) { await clock.advanceTo(ms); frame(); actions.tick(); return true; },
+  async at(ms: number) { await clock.advanceTo(ms); frame(); camTick(clock.time); actions.tick(); return true; },
 };
 (window as any).__reset = () => (mode === "explore" ? explore() : playFrom(director.program || "hero", 0));
 (window as any).__state = () => import("./state/store").then((m) => m.getState());

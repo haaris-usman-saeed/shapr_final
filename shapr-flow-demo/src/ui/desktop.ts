@@ -56,20 +56,26 @@ export function fit() {
 
 // ---------- camera ----------
 export const cam = { x: 960, y: 540, s: 1 };
+/** A slow ambient drift (about 1.5%) so a held frame is never completely static (autoplay only). */
+export const drift = { on: true, t: 0 };
 function applyCam() {
-  const hw = 960 / cam.s, hh = 540 / cam.s;
-  const x = clamp(cam.x, hw, 1920 - hw), y = clamp(cam.y, hh, 1080 - hh);
-  D.world.style.transform = `translate(960px,540px) scale(${cam.s.toFixed(4)}) translate(${(-x).toFixed(2)}px,${(-y).toFixed(2)}px)`;
-  (cam as any)._x = x; (cam as any)._y = y;
+  const t = drift.on ? drift.t / 1000 : 0;
+  const sc = cam.s * (drift.on ? 1.012 + 0.008 * Math.sin(t * 0.23) : 1);
+  const hw = 960 / sc, hh = 540 / sc;
+  const dx = drift.on ? (Math.sin(t * 0.31) * 7 + Math.sin(t * 0.17) * 4) / sc : 0, dy = drift.on ? (Math.cos(t * 0.27) * 5) / sc : 0;
+  const x = clamp(cam.x + dx, hw, 1920 - hw), y = clamp(cam.y + dy, hh, 1080 - hh);
+  D.world.style.transform = `translate(960px,540px) scale(${sc.toFixed(4)}) translate(${(-x).toFixed(2)}px,${(-y).toFixed(2)}px)`;
+  (cam as any)._x = x; (cam as any)._y = y; (cam as any)._s = sc;
   placeCursor();
 }
+export function camTick(timeMs: number) { drift.t = timeMs; applyCam(); }
 export function camTo(to: { x: number; y: number; s: number }, dur = 1000, e = ease.move) {
   const a = { ...cam };
   if (dur <= 0) { Object.assign(cam, to); applyCam(); return wait(0); }
   return run(dur, (k) => { cam.x = lerp(a.x, to.x, k); cam.y = lerp(a.y, to.y, k); cam.s = lerp(a.s, to.s, k); applyCam(); }, { ease: e });
 }
 export function camReset() { Object.assign(cam, { x: 960, y: 540, s: 1 }); applyCam(); }
-export const toScreen = (p: { x: number; y: number }) => ({ x: (p.x - (cam as any)._x) * cam.s + 960, y: (p.y - (cam as any)._y) * cam.s + 540 });
+export const toScreen = (p: { x: number; y: number }) => { const s = (cam as any)._s ?? cam.s; return { x: (p.x - (cam as any)._x) * s + 960, y: (p.y - (cam as any)._y) * s + 540 }; };
 
 /** Element rect in world coordinates. */
 export function rectOf(el: Element) {
