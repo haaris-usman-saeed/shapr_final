@@ -1,0 +1,5 @@
+{
+  "_doc": "Scene durations (ms) for each autoplay program. Read by the app (scenes/hero.ts) and by scripts/audio.py, so music and picture share one timeline.",
+  "hero": { "forget": 17000, "on": 12000, "permission": 19000, "understand": 22000, "memory": 26000, "circle": 12000, "lens": 18000, "threads": 16000, "resume": 24000, "simulate": 22000, "control": 13000, "future": 20000 },
+  "trailer": { "t-forget": 9000, "t-permission": 12000, "t-memory": 14000, "t-lens": 10000, "t-resume": 10000, "t-end": 5000 }
+}

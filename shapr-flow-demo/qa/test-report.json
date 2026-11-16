@@ -1,0 +1,90 @@
+{
+ "when": "2026-11-16T07:23:49.285Z",
+ "results": [
+  {
+   "name": "loads with the start screen and no errors",
+   "pass": true,
+   "detail": "start screen visible"
+  },
+  {
+   "name": "autoplay progresses and the scene label updates",
+   "pass": true,
+   "detail": "1/12 · The computer that forgets · progress 1.58362%"
+  },
+  {
+   "name": "Space pauses and resumes; arrow keys move between scenes",
+   "pass": true,
+   "detail": "paused at 1.71186%; then 2/12 · Turn Shapr on → 4/12 · Shapr starts understanding"
+  },
+  {
+   "name": "interactive: start a session from the menu-bar popover",
+   "pass": true,
+   "detail": "session active"
+  },
+  {
+   "name": "permission prompt: allow VS Code for this session, deny Safari",
+   "pass": true,
+   "detail": "{\"vscode\":\"session\",\"safari\":\"deny\"}"
+  },
+  {
+   "name": "privacy gate: events from a denied app never enter memory",
+   "pass": true,
+   "detail": "outcomes blocked, blocked; blockedCount 2"
+  },
+  {
+   "name": "memory kernel: errors infer a task, repeats are merged, attempts are kept",
+   "pass": true,
+   "detail": "task \"Fix database connection\" (inferred); tried Checked credentials / Restarted service; next \"Inspect environment configuration (DB_HOST)\""
+  },
+  {
+   "name": "free-hand circle over the terminal error opens L/T/S",
+   "pass": true,
+   "detail": "menu shown"
+  },
+  {
+   "name": "Lens reflects permissions (Safari denied → says so, no docs source)",
+   "pass": true,
+   "detail": "L |  LENS | This may be related to your earlier connection attempt."
+  },
+  {
+   "name": "same flow with Safari allowed → Lens cites the documentation",
+   "pass": true,
+   "detail": "sources: Current terminal error"
+  },
+  {
+   "name": "Threads: pin a finding updates task memory",
+   "pass": true,
+   "detail": "pinned; next \"Inspect environment configuration (DB_HOST)\" (confirmed)"
+  },
+  {
+   "name": "Simulate: two paths with evidence; choosing one is recorded",
+   "pass": true,
+   "detail": "EVIDENCE Selection only OPEN QUESTIONS Expected team sizeOffline requirements Scenario exploration · not a prediction"
+  },
+  {
+   "name": "Pause stops observation; review and delete memory",
+   "pass": true,
+   "detail": "paused event ignored; session memory deleted"
+  },
+  {
+   "name": "End the day → Resume restores the task",
+   "pass": true,
+   "detail": "Welcome back. | Continue Aurora? | Yesterday you were troubleshooting the PostgreSQL connection. | You checked credentials and restarted service."
+  },
+  {
+   "name": "Reset returns to the initial state",
+   "pass": true,
+   "detail": "initial state"
+  },
+  {
+   "name": "Shapr surfaces stay inside the stage at full size",
+   "pass": true,
+   "detail": "inside"
+  },
+  {
+   "name": "no page errors",
+   "pass": true,
+   "detail": "0 errors"
+  }
+ ]
+}

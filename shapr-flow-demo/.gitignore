@@ -1,0 +1,6 @@
+node_modules/
+build/
+exports/*.mp4
+qa/stills/
+qa/test/
+*.wav

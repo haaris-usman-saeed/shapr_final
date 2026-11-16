@@ -1,0 +1,28 @@
+{
+  "name": "shapr-flow-demo",
+  "private": true,
+  "version": "1.0.0",
+  "type": "module",
+  "description": "SHAPR FLOW: interactive cinematic product demonstration (concept, synthetic data).",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview",
+    "typecheck": "tsc --noEmit",
+    "test": "node scripts/test.mjs",
+    "audio": "python3 scripts/audio.py",
+    "export:hero": "npm run build && node scripts/capture.mjs --program hero && python3 scripts/audio.py --mix hero && node scripts/mux.mjs hero exports/shapr_flow_hero.mp4",
+    "export:trailer": "npm run build && node scripts/capture.mjs --program trailer && python3 scripts/audio.py --mix trailer && node scripts/mux.mjs trailer exports/shapr_flow_60s_trailer.mp4",
+    "stills": "node scripts/capture.mjs --stills"
+  },
+  "devDependencies": {
+    "typescript": "^5.6.3",
+    "vite": "^5.4.10",
+    "vite-plugin-singlefile": "^2.0.3"
+  },
+  "dependencies": {
+    "@fontsource-variable/inter": "^5.3.0",
+    "@fontsource/instrument-serif": "^5.3.0",
+    "@fontsource/jetbrains-mono": "^5.3.0"
+  }
+}
